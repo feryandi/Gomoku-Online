@@ -67,8 +67,8 @@ class Login(Frame):
         cd_port = int(self.entryPort.get())
 
         cd_clientsocket.connect(cd_addr)
-        #msg = "{\"type\":\"hello\", \"name\":\"" + cd_name + "\"}"
-        #cd_clientsocket.send(struct.pack("i", len(msg)) + msg)
+
+        sendMessage({"type":"hello"})
 
         # TO-DO:
         # Kirim pesan bahwa player login ke server agar dicatat
