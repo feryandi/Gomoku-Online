@@ -62,6 +62,16 @@ class Lobby(Frame):
         # TO-DO
         # Kirim message kalo player ingin join ke room yang dipilih
 
-        self.destroy()
-        app = GameRoom(self.parent) 
+        self.gameWindow = Toplevel(self.parent)
+
+        self.parent.withdraw()
+
+        app = GameRoom(self.gameWindow)
+
+        self.gameWindow.protocol("WM_DELETE_WINDOW", self.onPlayClose)
+        #app = GameRoom(self.parent) 
+
+    def onPlayClose(self):
+        self.parent.deiconify()
+        self.gameWindow.destroy()
 
