@@ -15,5 +15,5 @@ cd_board = [ [ 'x' for x in range(20) ] for x in range(20) ]
 def sendMessage(message):
 	global cd_clientsocket
 
-	msg = json.dumps(message)
+	msg = json.dumps(message,separators=(',',':'))
 	cd_clientsocket.send(struct.pack("i", len(msg)) + msg)
