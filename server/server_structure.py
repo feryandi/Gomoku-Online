@@ -75,7 +75,7 @@ class GameServer:
 
 	def __init__ (self):
 		self.players = [""] * 5 # maximum players online 
-		self.rooms = [""] * 1 # maximum rooms active
+		self.rooms = [""] * 5 # maximum rooms active
 
 	def getPlayerList (self):
 		return self.players
@@ -146,12 +146,13 @@ class MessageServer:
 	def interpreter (self, message, clientsocket, GameServer):
 		msg = json.loads(message)
 
-		if msg['type'] == 'newroom':
+		if msg['type'] == 'login':
 			GameServer.newPlayer(msg['name'], clientsocket)
-			
+
+		elif msg['type'] == 'newroom':
 			#debug only
 			if (self.clientid == 0):
-				GameServer.newRoom("roomname", self.clientid)
+				GameServer.newRoom(msg['name'], self.clientid)
 			else:
 				GameServer.playerJoin(self.clientid, 0)
 

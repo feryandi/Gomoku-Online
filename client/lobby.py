@@ -35,10 +35,10 @@ class Lobby(Frame):
         lblCR = Label(self, text="Room List")
         lblCR.grid(row=0, column=0, pady=4, padx=5, sticky=W)
 
-        entry = Entry(self)
-        entry.grid(row=0, column=1, pady=4, padx=5, columnspan=4, sticky=E)
+        self.entry = Entry(self)
+        self.entry.grid(row=0, column=1, pady=4, padx=5, columnspan=4, sticky=E)
         
-        CRbtn = Button(self, text="Create")
+        CRbtn = Button(self, text="Create", command=self.newRoom)
         CRbtn.grid(row=0, column=5, pady=4, padx=5, sticky=E)
 
         # TO-DO
@@ -74,4 +74,8 @@ class Lobby(Frame):
     def onPlayClose(self):
         self.parent.deiconify()
         self.gameWindow.destroy()
+
+    def newRoom(self):
+        if not(self.entry.get() == ''):
+            sendMessage({"type":"newroom","name":self.entry.get()})
 
