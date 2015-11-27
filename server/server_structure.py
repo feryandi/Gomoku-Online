@@ -54,18 +54,26 @@ class Game:
 	def __init__ (self, rid, pid):
 		self.room = rid
 		self.board = [ [ 0 for x in range(20) ] for x in range(20) ]
-		self.turn = pid
+		self.turn = 0
 		self.winner = -1
-		self.players = 1
+		self.players = []
 
 	def getPlayerCount (self):
-		return self.players
+		return len(self.players)
 
-	def addPlayer (self):
-		self.players += 1
+	def getTurn (self):
+		return self.players[self.turn]
 
-	def delPlayer (self):
-		self.players -= 1
+	def nextTurn (self):
+		self.turn += 1
+		if self.turn > len(self.players):
+			self.turn = 0
+
+	def addPlayer (self, pid):
+		self.players.append(pid)
+
+	def delPlayer (self, pid):
+		self.players.remove(pid)
 
 	def __del__ (self):
 		print "Game from Room ( " + str(self.room) + " ) stopped"
@@ -103,9 +111,7 @@ class GameServer:
 		for x in self.rooms:
 			if ( x == "" ):
 				self.rooms[i] = (Room(i, name, pid), Game(i, pid))
-				# Please Consider this:
-				#self.playerJoin(pid, i)
-				return 1
+				return i
 			i += 1
 		return None
 
@@ -114,14 +120,29 @@ class GameServer:
 		self.players[pid] = ""
 
 	def delRoom (self, rid):
-		del self.rooms[rid][0]
-		del self.rooms[rid][1]
 		self.rooms[rid] = ""
 
 	def playerJoin (self, pid, rid):
-		self.players[pid].setRoomID(rid)
-		self.rooms[rid][1].addPlayer()
-		self.players[pid].setChar(GameServer.character[self.rooms[rid][1].getPlayerCount() - 1])
+		if self.rooms[rid][1].getPlayerCount() < 5:
+			self.players[pid].setRoomID(rid)
+			self.rooms[rid][1].addPlayer(pid)
+			self.players[pid].setChar(GameServer.character[self.rooms[rid][1].getPlayerCount() - 1])
+			print "Player join room (" + str(rid) + ") and get character '" + self.players[pid].getChar() + "'"
+			return 1
+		else:
+			print "User trying to join full room"
+			return 0
+
+	def playerQuit (self, pid):
+		rid = self.players[pid].getRoomID()
+		self.rooms[rid][1].delPlayer(pid)
+		self.players[pid].setChar("?")
+		print "Player (" + str(pid) + ") quit from game"
+
+		if self.rooms[rid][1].getPlayerCount() == 0:
+			self.delRoom(rid)
+			print "Room (" + str(rid) + ") deleted because lack of players"
+
 
 class MessageServer:
 	client = 0
@@ -168,10 +189,31 @@ class MessageServer:
 
 		elif msg['type'] == 'newroom':
 			# Buat room baru,
-			GameServer.newRoom(msg['name'], self.clientid)
+			rid = GameServer.newRoom(msg['name'], self.clientid)
 
 			# Kirim ulang data rooms ke Client
 			GameServer.broadcastByRoom(-1, json.loads(self.objectToJSON("rooms", GameServer)))
+
+			# Kasi tau bahwa room berhasil dibuat
+			self.sendResponse(clientsocket, json.dumps({"type":"newroom", "rid":rid}))
+
+		elif msg['type'] == 'join':
+			if msg['rid'] >= 0:
+				# Join Player ke Game
+				if GameServer.playerJoin(self.clientid, msg['rid']) == 1:
+					# Beritahu ke player bahwa berhasil join
+					self.sendResponse(clientsocket, json.dumps({"type":"join", "rid":msg['rid']}))
+				else:
+					# Beritahu ke player bahwa GAGAL join					
+					self.sendResponse(clientsocket, json.dumps({"type":"join", "rid":-1}))
+
+		elif msg['type'] == 'closegame':
+			GameServer.playerQuit(self.clientid)
+
+		elif msg['type'] == 'request':
+			if msg['object'] == 'rooms':
+				self.sendResponse(clientsocket, self.objectToJSON("rooms", GameServer))
+
 
 	def objectToJSON (self, request, GameServer):
 		class message(object):

@@ -68,10 +68,8 @@ class Login(Frame):
 
         cd_clientsocket.connect(cd_addr)
 
-        sendMessage({"type":"login","name":cd_name})
-
-        # TO-DO:
         # Kirim pesan bahwa player login ke server agar dicatat
+        sendMessage({"type":"login","name":cd_name})
 
         self.destroy()
         app = Lobby(self.parent)

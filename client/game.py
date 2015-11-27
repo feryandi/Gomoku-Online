@@ -30,16 +30,16 @@ class GameRoom(Frame):
         lblInfo.grid(row=0, column=self.size, rowspan=2, pady=4, padx=5, sticky=E+W)
 
         lblTurn = Label(self, text="Turn", relief=RIDGE, width=35, anchor=CENTER)
-        lblTurn.grid(row=2, column=self.size, pady=4, padx=5, sticky=E+W)
+        lblTurn.grid(row=2, column=self.size, padx=5, sticky=E+W)
 
         lblTurn = Label(self, text="feryandi [ X ]", width=35, anchor=CENTER)
-        lblTurn.grid(row=3, column=self.size, pady=4, padx=5, sticky=E+W)
+        lblTurn.grid(row=3, column=self.size, padx=5, sticky=E+W)
 
         lblTurn = Label(self, text="Players List", relief=RIDGE, width=35, anchor=CENTER)
-        lblTurn.grid(row=4, column=self.size, pady=4, padx=5, sticky=E+W)
+        lblTurn.grid(row=4, column=self.size, padx=5, sticky=E+W)
 
         lblTurn = Label(self, text="feryandi [ X ]", width=35, anchor=CENTER)
-        lblTurn.grid(row=5, column=self.size, pady=4, padx=5, sticky=E+W)
+        lblTurn.grid(row=5, column=self.size, padx=5, sticky=E+W)
 
     def createInitalBoard(self):
         global cd_board

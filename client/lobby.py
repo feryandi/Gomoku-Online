@@ -20,10 +20,6 @@ class Lobby(Frame):
         thread.start_new_thread(self.listener, ())       
         
     def initUI(self):
-        # TO-DO
-        # Minta list room yang terdaftar diserver
-        sendMessage({"type":"request", "object":"rooms"})
-
         self.parent.title("Lobby")
         self.style = Style()
         self.style.theme_use("default")
@@ -44,9 +40,6 @@ class Lobby(Frame):
         CRbtn = Button(self, text="Create", command=self.newRoom)
         CRbtn.grid(row=0, column=5, pady=4, padx=5, sticky=E)
 
-        # TO-DO
-        # Bikin fungsi buat bikin room baru dan kirim pesan ke server kalo player mau bikin room
-
         self.roomlist = Listbox(self)
         self.roomlist.bind("<<ListboxSelect>>", self.onRoomSelect)
         self.roomlist.grid(row=1, column=0, rowspan=6, columnspan=6, sticky=E+W+S+N, padx=5, pady=5)
@@ -57,32 +50,67 @@ class Lobby(Frame):
 
     def onRoomSelect(self, var):
         global cd_ridSelected
-        cd_ridSelected = var.widget.curselection()
-        # mengeluarkan () kalau list kosong
-        # mengeluarkan (x,) kalau ada yang di select
+        if len(var.widget.curselection()) != 0:
+            cd_ridSelected = var.widget.curselection()[0]
+            # mengeluarkan () kalau list kosong
+            # mengeluarkan (x,) kalau ada yang di select
 
-    def onJoin(self):     
-        # TO-DO
+    def onJoin(self):
+        global cd_ridSelected
+        global cd_id
+        global cd_isOnGame
+
+        cd_isOnGame = -1
+
+        while cd_ridSelected == -1:
+            # Busy wait
+            pass
+
         # Kirim message kalo player ingin join ke room yang dipilih
+        sendMessage({"type":"join", "rid":cd_ridSelected})
 
+        while cd_isOnGame == -1:
+            # Busy wait
+            pass
+
+        if cd_isOnGame == 1:
+            cd_currentRoom = cd_ridSelected
+            self.openGameWindow()
+
+        cd_ridSelected = -1
+
+    def openGameWindow(self):
         self.gameWindow = Toplevel(self.parent)
-
         self.parent.withdraw()
-
         app = GameRoom(self.gameWindow)
-
         self.gameWindow.protocol("WM_DELETE_WINDOW", self.onPlayClose)
-        #app = GameRoom(self.parent) 
 
     def onPlayClose(self):
+        global cd_isOnGame
+        global cd_currentRoom
+
+        # Kasih tau server kalau player keluar Game
+        sendMessage({"type":"closegame"})
+
+        cd_isOnGame = -1
+        cd_currentRoom = -1
+
         self.parent.deiconify()
         self.gameWindow.destroy()
 
+        # Minta list room yang baru
+        sendMessage({"type":"request", "object":"rooms"})
+
     def newRoom(self):
+        # Buat bikin room baru dan kirim pesan ke server kalo player mau bikin room
         if not(self.entry.get() == ''):
             sendMessage({"type":"newroom","name":self.entry.get()})
+            self.onJoin()
 
     def interpreter(self, message):
+        global cd_isOnGame
+        global cd_ridSelected
+
         msg = json.loads(message)
 
         if msg['type'] == 'response':
@@ -91,6 +119,17 @@ class Lobby(Frame):
                 self.roomlist.delete(0, END)
                 for room in msg['data']:
                     self.roomlist.insert(END, room['name'])
+
+        elif msg['type'] == 'join':
+            # Dapat balasan bahwa Join berhasil, buka Window Game
+            if msg['rid'] >= 0:
+                cd_currentRoom = msg['rid']
+                cd_isOnGame = 1
+            else:
+                cd_isOnGame = 0
+
+        elif msg['type'] == 'newroom':
+            cd_ridSelected = msg['rid']
 
     def listener(self):
         global cd_clientsocket        
