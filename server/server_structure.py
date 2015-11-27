@@ -160,17 +160,20 @@ class MessageServer:
 		msg = json.loads(message)
 
 		if msg['type'] == 'login':
+			# Register player ke Server
 			GameServer.newPlayer(msg['name'], clientsocket)
-			self.sendResponse("rooms", clientsocket, GameServer)
+
+			# Berikan list Room yang ada
+			self.sendResponse(clientsocket, self.objectToJSON("rooms", GameServer))
 
 		elif msg['type'] == 'newroom':
 			# Buat room baru,
 			GameServer.newRoom(msg['name'], self.clientid)
 
 			# Kirim ulang data rooms ke Client
-			self.sendResponse("rooms", clientsocket, GameServer)
+			GameServer.broadcastByRoom(-1, json.loads(self.objectToJSON("rooms", GameServer)))
 
-	def sendResponse (self, request, clientsocket, GameServer):
+	def objectToJSON (self, request, GameServer):
 		class message(object):
 			def __init__(self):
 				self.type = "response"
@@ -186,7 +189,10 @@ class MessageServer:
 					msgobj.data.append({"id": room[0].getID(), "name":room[0].getName()})
 
 		msg = json.dumps(msgobj.__dict__)
-		print msg
+		return msg
+
+	def sendResponse (self, clientsocket, msg):
+
 		clientsocket.send(struct.pack("i", len(msg)) + msg)
 
 
