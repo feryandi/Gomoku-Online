@@ -80,14 +80,20 @@ class Lobby(Frame):
         cd_ridSelected = -1
 
     def openGameWindow(self):
+        global cd_gameWindowOpen
+
         self.gameWindow = Toplevel(self.parent)
         self.parent.withdraw()
         app = GameRoom(self.gameWindow)
+        self.app = app
         self.gameWindow.protocol("WM_DELETE_WINDOW", self.onPlayClose)
+
+        cd_gameWindowOpen = True
 
     def onPlayClose(self):
         global cd_isOnGame
         global cd_currentRoom
+        global cd_gameWindowOpen
 
         # Kasih tau server kalau player keluar Game
         sendMessage({"type":"closegame"})
@@ -101,6 +107,8 @@ class Lobby(Frame):
         # Minta list room yang baru
         sendMessage({"type":"request", "object":"rooms"})
 
+        cd_gameWindowOpen = False
+
     def newRoom(self):
         # Buat bikin room baru dan kirim pesan ke server kalo player mau bikin room
         if not(self.entry.get() == ''):
@@ -110,15 +118,27 @@ class Lobby(Frame):
     def interpreter(self, message):
         global cd_isOnGame
         global cd_ridSelected
+        global cd_playerList
+        global cd_currentPlayers
+        global cd_gameWindowOpen
 
         msg = json.loads(message)
 
         if msg['type'] == 'response':
             if msg['object'] == 'rooms':
-                # Refresing rooms
+                # Refreshing rooms
                 self.roomlist.delete(0, END)
                 for room in msg['data']:
                     self.roomlist.insert(END, room['name'])
+
+            if msg['object'] == 'players':
+                # Refreshing players
+                del cd_currentPlayers[:]
+
+                for player in msg['data']:
+                    cd_currentPlayers.append((player['name'], player['char']))
+
+                self.app.updatePlayers()
 
         elif msg['type'] == 'join':
             # Dapat balasan bahwa Join berhasil, buka Window Game
@@ -130,6 +150,17 @@ class Lobby(Frame):
 
         elif msg['type'] == 'newroom':
             cd_ridSelected = msg['rid']
+
+        elif msg['type'] == 'startgame':
+            while not cd_gameWindowOpen:
+                # Busy Wait
+                pass
+
+            self.app.onStartGame()
+
+        elif msg['type'] == 'play':
+            self.app.test()
+
 
     def listener(self):
         global cd_clientsocket        

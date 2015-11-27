@@ -18,6 +18,9 @@ class GameRoom(Frame):
         self.initUI()
         
     def initUI(self):
+        global cd_playerList
+        global cd_gameStatus
+
         self.parent.title("Gomoku Game")
         self.style = Style()
         self.style.theme_use("default")
@@ -38,8 +41,20 @@ class GameRoom(Frame):
         lblTurn = Label(self, text="Players List", relief=RIDGE, width=35, anchor=CENTER)
         lblTurn.grid(row=4, column=self.size, padx=5, sticky=E+W)
 
-        lblTurn = Label(self, text="feryandi [ X ]", width=35, anchor=CENTER)
-        lblTurn.grid(row=5, column=self.size, padx=5, sticky=E+W)
+        cd_playerList = StringVar()
+
+        lblTurn = Label(self, textvariable=cd_playerList, width=35, anchor=N)
+        lblTurn.grid(row=5, column=self.size, rowspan=10, padx=5, sticky=N)
+
+        cd_gameStatus = StringVar()
+
+        lblGame = Label(self, textvariable=cd_gameStatus, width=35, anchor=CENTER)
+        lblGame.grid(row=self.size-3, column=self.size, rowspan=3, padx=5)
+
+        cd_gameStatus.set("Waiting for 3 Players\nto Enter the Room")
+
+        sendMessage({"type":"request", "object":"players"})
+
 
     def createInitalBoard(self):
         global cd_board
@@ -52,3 +67,26 @@ class GameRoom(Frame):
                                      textvariable=cd_board[x][y],
                                      command=lambda name=buttonName: self.pushButton(name))
                 boardButton.grid(row = x, column = y, pady=0)
+
+    def updatePlayers(self):
+        global cd_currentPlayers
+        global cd_playerList
+
+        cd_playerList.set("")
+
+        text = ""
+        for player in cd_currentPlayers:
+            text += player[0] + " (" + player[1] + ")" + "\n"
+
+        cd_playerList.set(text)
+
+    def onStartGame(self):
+        global cd_gameStatus
+        print "Start Game!"
+        cd_gameStatus.set("Game is Started!")
+
+    def test(self):
+        cd_playerList.set("none")
+
+    def __del__ (self):
+        print "Game Window closed"

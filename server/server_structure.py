@@ -39,7 +39,6 @@ class Room:
 	def __init__ (self, rid, name, pid):
 		self.id = rid
 		self.name = name
-		self.ownerid = pid
 
 	def getID (self):
 		return self.id
@@ -57,6 +56,16 @@ class Game:
 		self.turn = 0
 		self.winner = -1
 		self.players = []
+		self.isStart = False
+
+	def getOwner (self):
+		return self.players[0]
+
+	def isOwner (self, player):
+		return player.getID() == self.getOwner().getID()
+
+	def isStart (self):
+		return self.isStart
 
 	def getPlayerCount (self):
 		return len(self.players)
@@ -69,11 +78,20 @@ class Game:
 		if self.turn > len(self.players):
 			self.turn = 0
 
+	def getPlayerList (self):
+		return self.players
+
 	def addPlayer (self, pid):
 		self.players.append(pid)
 
 	def delPlayer (self, pid):
 		self.players.remove(pid)
+
+	def startGame (self):
+		self.isStart = True
+
+	def stopGame (self):
+		self.isStart = False
 
 	def __del__ (self):
 		print "Game from Room ( " + str(self.room) + " ) stopped"
@@ -87,6 +105,9 @@ class GameServer:
 
 	def getPlayerList (self):
 		return self.players
+
+	def getPlayerByPID (self, pid):
+		return self.players[pid]
 
 	def getRoomList (self):
 		return self.rooms
@@ -102,7 +123,7 @@ class GameServer:
 		for x in self.players:
 			if ( x == "" ):
 				self.players[i] = Player(i, iport, name)
-				return 1
+				return i
 			i += 1
 		return None
 
@@ -116,7 +137,6 @@ class GameServer:
 		return None
 
 	def delPlayer (self, pid):
-		del self.players[pid]
 		self.players[pid] = ""
 
 	def delRoom (self, rid):
@@ -148,8 +168,7 @@ class MessageServer:
 	client = 0
 
 	def __init__ (self, clientsocket, clientaddr, GameServer):
-		self.clientid = MessageServer.client
-		MessageServer.client += 1
+		self.clientid = -1
 		print "Accepted connection from ", tuple(clientaddr)
 
 		onLoop = True
@@ -171,7 +190,6 @@ class MessageServer:
 					self.interpreter(data, clientsocket, GameServer)
 			except error:
 				GameServer.delPlayer(self.clientid)
-				MessageServer.client -= 1
 				onLoop = False
 
 		clientsocket.close()
@@ -182,7 +200,8 @@ class MessageServer:
 
 		if msg['type'] == 'login':
 			# Register player ke Server
-			GameServer.newPlayer(msg['name'], clientsocket)
+			self.clientid = GameServer.newPlayer(msg['name'], clientsocket)
+			print self.clientid
 
 			# Berikan list Room yang ada
 			self.sendResponse(clientsocket, self.objectToJSON("rooms", GameServer))
@@ -198,21 +217,37 @@ class MessageServer:
 			self.sendResponse(clientsocket, json.dumps({"type":"newroom", "rid":rid}))
 
 		elif msg['type'] == 'join':
-			if msg['rid'] >= 0:
+			rid = msg['rid']
+			if rid >= 0:
 				# Join Player ke Game
-				if GameServer.playerJoin(self.clientid, msg['rid']) == 1:
+				if GameServer.playerJoin(self.clientid, rid) == 1:
 					# Beritahu ke player bahwa berhasil join
-					self.sendResponse(clientsocket, json.dumps({"type":"join", "rid":msg['rid']}))
+					self.sendResponse(clientsocket, json.dumps({"type":"join", "rid":rid}))
+					# Kalau di room udah ada 3 orang, mulai Game-nya
+					if GameServer.getRoomList()[rid][1].getPlayerCount() == 3 :
+						GameServer.getRoomList()[rid][1].startGame()
+						GameServer.broadcastByRoom(rid, {"type":"startgame"})
+
 				else:
 					# Beritahu ke player bahwa GAGAL join					
 					self.sendResponse(clientsocket, json.dumps({"type":"join", "rid":-1}))
 
 		elif msg['type'] == 'closegame':
-			GameServer.playerQuit(self.clientid)
+			if GameServer.getPlayerByPID(self.clientid) != "":
+				rid = GameServer.getPlayerByPID(self.clientid).getRoomID()
+				GameServer.playerQuit(self.clientid)
+
+				if GameServer.getRoomList()[rid] != "":
+					GameServer.broadcastByRoom(rid, json.loads(self.objectToJSON("players", GameServer)))
 
 		elif msg['type'] == 'request':
 			if msg['object'] == 'rooms':
 				self.sendResponse(clientsocket, self.objectToJSON("rooms", GameServer))
+			elif msg['object'] == 'players':
+				GameServer.broadcastByRoom(GameServer.getPlayerByPID(self.clientid).getRoomID(), json.loads(self.objectToJSON("players", GameServer)))
+
+		elif msg['type'] == 'test':
+			self.sendResponse(clientsocket, json.dumps({"type":"play"}))
 
 
 	def objectToJSON (self, request, GameServer):
@@ -229,6 +264,12 @@ class MessageServer:
 			for room in GameServer.getRoomList():
 				if ( room != "" ):
 					msgobj.data.append({"id": room[0].getID(), "name":room[0].getName()})
+
+		elif (request == "players"):
+			msgobj.object = "players"
+			for player in GameServer.getRoomList()[GameServer.getPlayerList()[self.clientid].getRoomID()][1].getPlayerList():
+				if GameServer.getPlayerByPID(player) != "":
+					msgobj.data.append({"name": GameServer.getPlayerByPID(player).getName(), "char":GameServer.getPlayerByPID(player).getChar()})
 
 		msg = json.dumps(msgobj.__dict__)
 		return msg

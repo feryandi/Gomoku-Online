@@ -16,8 +16,17 @@ cd_ridSelected = -1
 cd_currentRoom = -1
 cd_isOnGame = -1
 
+# Current Game Data
+cd_currentPlayers = []
+cd_playerList = ""
+cd_gameStatus = ""
+cd_gameWindowOpen = False
+
 def sendMessage(message):
 	global cd_clientsocket
 
 	msg = json.dumps(message,separators=(',',':'))
 	cd_clientsocket.send(struct.pack("i", len(msg)) + msg)
+
+def test():
+	print cd_currentPlayers
