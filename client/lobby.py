@@ -2,6 +2,7 @@ from Tkinter import *
 from ttk import *
 import tkMessageBox
 from socket import *
+
 import struct
 import thread
 import json
@@ -14,12 +15,14 @@ class Lobby(Frame):
         Frame.__init__(self, parent)   
          
         self.parent = parent
-        
+ 
         self.initUI()
+        thread.start_new_thread(self.listener, ())       
         
     def initUI(self):
         # TO-DO
         # Minta list room yang terdaftar diserver
+        sendMessage({"type":"request", "object":"rooms"})
 
         self.parent.title("Lobby")
         self.style = Style()
@@ -44,20 +47,18 @@ class Lobby(Frame):
         # TO-DO
         # Bikin fungsi buat bikin room baru dan kirim pesan ke server kalo player mau bikin room
 
-        self.rooms = ['Room 1', 'Join US!', 
-            'No Cheater~', 'Lets play']
-
-        lb = Listbox(self)
-        for i in self.rooms:
-            lb.insert(END, i)
-
-        #lb.bind("<<ListboxSelect>>", self.onSelect)
-        lb.grid(row=1, column=0, rowspan=6, columnspan=6, sticky=E+W+S+N, padx=5, pady=5)
+        self.roomlist = Listbox(self)
+        self.roomlist.bind("<<ListboxSelect>>", self.onRoomSelect)
+        self.roomlist.grid(row=1, column=0, rowspan=6, columnspan=6, sticky=E+W+S+N, padx=5, pady=5)
         
         JOINbtn = Button(self, text="JOIN", width=25, command=self.onJoin)
         JOINbtn.grid(row=7, column=0, pady=4, padx=6, columnspan=6, sticky=E+W)
 
-    
+
+    def onRoomSelect(self):
+        global cd_ridSelected
+        cd_ridSelected = self.roomlist.curselection()
+
     def onJoin(self):     
         # TO-DO
         # Kirim message kalo player ingin join ke room yang dipilih
@@ -78,4 +79,35 @@ class Lobby(Frame):
     def newRoom(self):
         if not(self.entry.get() == ''):
             sendMessage({"type":"newroom","name":self.entry.get()})
+
+    def interpreter(self, message):
+        msg = json.loads(message)
+
+        if msg['type'] == 'response':
+            if msg['object'] == 'rooms':
+                # Refresing rooms
+                self.roomlist.delete(0, END)
+                for room in msg['data']:
+                    self.roomlist.insert(END, room['name'])
+
+    def listener(self):
+        global cd_clientsocket        
+        
+        print "Listening to server"
+        while True:
+            size = struct.unpack("i", cd_clientsocket.recv(struct.calcsize("i")))
+            data = ""
+            while len(data) < size[0]:
+                msg = cd_clientsocket.recv(size[0] - len(data))
+                if not msg:
+                    return None
+                data += msg
+
+            if not data:
+                break
+            else:
+                print data
+                self.interpreter(data)
+        cd_clientsocket.close()
+
 

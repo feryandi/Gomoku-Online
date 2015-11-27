@@ -33,7 +33,7 @@ class Player:
 		self.char = char
 
 	def __del__ (self):
-		print "Player destroyed"
+		print "Player [ " +  self.name + " ("  + str(self.id) + ") ] exited"
 
 class Room:
 	def __init__ (self, rid, name, pid):
@@ -48,7 +48,7 @@ class Room:
 		return self.name
 
 	def __del__ (self):
-		print "Room destroyed"
+		print "Room [ " + self.name + "(" + str(self.id) + ") ] deleted"
 
 class Game:
 	def __init__ (self, rid, pid):
@@ -68,7 +68,7 @@ class Game:
 		self.players -= 1
 
 	def __del__ (self):
-		print "Game destroyed"
+		print "Game from Room ( " + str(self.room) + " ) stopped"
 
 class GameServer:
 	character = ['X', 'O', 'Y', 'L', 'M'] # maximum 5 players per room (?)
@@ -84,9 +84,10 @@ class GameServer:
 		return self.rooms
 
 	def broadcastByRoom (self, rid, message):
+		msg = json.dumps(message,separators=(',',':'))
 		for player in self.players:
 			if ( ( player != "" ) and ( player.getRoomID() == rid ) ):
-				player.getIPort().send(struct.pack("i", len(message)) + message)
+				player.getIPort().send(struct.pack("i", len(msg)) + msg)
 
 	def newPlayer (self, name, iport):
 		i = 0
@@ -102,10 +103,20 @@ class GameServer:
 		for x in self.rooms:
 			if ( x == "" ):
 				self.rooms[i] = (Room(i, name, pid), Game(i, pid))
-				self.playerJoin(pid, i)
+				# Please Consider this:
+				#self.playerJoin(pid, i)
 				return 1
 			i += 1
 		return None
+
+	def delPlayer (self, pid):
+		del self.players[pid]
+		self.players[pid] = ""
+
+	def delRoom (self, rid):
+		del self.rooms[rid][0]
+		del self.rooms[rid][1]
+		self.rooms[rid] = ""
 
 	def playerJoin (self, pid, rid):
 		self.players[pid].setRoomID(rid)
@@ -138,25 +149,46 @@ class MessageServer:
 					print data
 					self.interpreter(data, clientsocket, GameServer)
 			except error:
+				GameServer.delPlayer(self.clientid)
 				MessageServer.client -= 1
 				onLoop = False
 
 		clientsocket.close()
+
 
 	def interpreter (self, message, clientsocket, GameServer):
 		msg = json.loads(message)
 
 		if msg['type'] == 'login':
 			GameServer.newPlayer(msg['name'], clientsocket)
+			self.sendResponse("rooms", clientsocket, GameServer)
 
 		elif msg['type'] == 'newroom':
-			#debug only
-			if (self.clientid == 0):
-				GameServer.newRoom(msg['name'], self.clientid)
-			else:
-				GameServer.playerJoin(self.clientid, 0)
+			# Buat room baru,
+			GameServer.newRoom(msg['name'], self.clientid)
 
-			GameServer.broadcastByRoom(0, "{\"type\":\"HELLO!\"}")
+			# Kirim ulang data rooms ke Client
+			self.sendResponse("rooms", clientsocket, GameServer)
+
+	def sendResponse (self, request, clientsocket, GameServer):
+		class message(object):
+			def __init__(self):
+				self.type = "response"
+				self.object = "undefined"
+				self.data = []
+
+		msgobj = message()
+
+		if (request == "rooms"):
+			msgobj.object = "rooms"
+			for room in GameServer.getRoomList():
+				if ( room != "" ):
+					msgobj.data.append({"id": room[0].getID(), "name":room[0].getName()})
+
+		msg = json.dumps(msgobj.__dict__)
+		print msg
+		clientsocket.send(struct.pack("i", len(msg)) + msg)
+
 
 	def __del__ (self):
 		print "Message Server destroyed"
