@@ -55,9 +55,11 @@ class Lobby(Frame):
         JOINbtn.grid(row=7, column=0, pady=4, padx=6, columnspan=6, sticky=E+W)
 
 
-    def onRoomSelect(self):
+    def onRoomSelect(self, var):
         global cd_ridSelected
-        cd_ridSelected = self.roomlist.curselection()
+        cd_ridSelected = var.widget.curselection()
+        # mengeluarkan () kalau list kosong
+        # mengeluarkan (x,) kalau ada yang di select
 
     def onJoin(self):     
         # TO-DO
