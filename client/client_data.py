@@ -3,6 +3,9 @@ from Tkinter import *
 import json
 import struct
 
+#GUI
+root = Tk()
+
 # Connection 
 cd_host = 'localhost'
 cd_port = 55555
@@ -18,8 +21,8 @@ cd_isOnGame = -1
 
 # Current Game Data
 cd_currentPlayers = []
-cd_playerList = ""
-cd_gameStatus = ""
+cd_playerList = StringVar()
+cd_gameStatus = StringVar()
 cd_gameWindowOpen = False
 
 def sendMessage(message):

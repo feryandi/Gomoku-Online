@@ -9,8 +9,8 @@ from login import *
 from client_data import *
 
 def main():
-	root = Tk()
-
+	global root
+	
 	app = Login(root)
 
 	root.mainloop()

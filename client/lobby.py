@@ -20,6 +20,8 @@ class Lobby(Frame):
         thread.start_new_thread(self.listener, ())       
         
     def initUI(self):
+        global cd_rooms
+
         self.parent.title("Lobby")
         self.style = Style()
         self.style.theme_use("default")
@@ -121,6 +123,7 @@ class Lobby(Frame):
         global cd_playerList
         global cd_currentPlayers
         global cd_gameWindowOpen
+        global cd_rooms
 
         msg = json.loads(message)
 
@@ -128,6 +131,7 @@ class Lobby(Frame):
             if msg['object'] == 'rooms':
                 # Refreshing rooms
                 self.roomlist.delete(0, END)
+
                 for room in msg['data']:
                     self.roomlist.insert(END, room['name'])
 
@@ -138,7 +142,14 @@ class Lobby(Frame):
                 for player in msg['data']:
                     cd_currentPlayers.append((player['name'], player['char']))
 
-                self.app.updatePlayers()
+                # Update Players via StringVar()
+                cd_playerList.set("")
+
+                text = ""
+                for player in cd_currentPlayers:
+                    text += player[0] + " (" + player[1] + ")" + "\n"
+
+                cd_playerList.set(text)
 
         elif msg['type'] == 'join':
             # Dapat balasan bahwa Join berhasil, buka Window Game
@@ -156,10 +167,11 @@ class Lobby(Frame):
                 # Busy Wait
                 pass
 
-            self.app.onStartGame()
+            cd_gameStatus.set("Game is Started!")
 
         elif msg['type'] == 'play':
-            self.app.test()
+            #self.app.test()
+            pass
 
 
     def listener(self):
