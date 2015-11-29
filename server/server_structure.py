@@ -58,13 +58,19 @@ class Game:
 		self.players = []
 		self.isStart = False
 
+	def setBoard(self, x, y, char):
+		self.board[x][y] = char
+
 	def getOwner (self):
-		return self.players[0]
+		if self.getPlayerCount() == 0:
+			return ""
+		else:
+			return self.players[0]
 
 	def isOwner (self, player):
 		return player.getID() == self.getOwner().getID()
 
-	def isStart (self):
+	def isGameStarted (self):
 		return self.isStart
 
 	def getPlayerCount (self):
@@ -117,6 +123,13 @@ class GameServer:
 		for player in self.players:
 			if ( ( player != "" ) and ( player.getRoomID() == rid ) ):
 				player.getIPort().send(struct.pack("i", len(msg)) + msg)
+
+	def broadcastByPID (self, pid, message):
+		msg = json.dumps(message,separators=(',',':'))
+		player = self.players[pid]
+		if player != "":
+			player.getIPort().send(struct.pack("i", len(msg)) + msg)
+
 
 	def newPlayer (self, name, iport):
 		i = 0
@@ -201,10 +214,15 @@ class MessageServer:
 		if msg['type'] == 'login':
 			# Register player ke Server
 			self.clientid = GameServer.newPlayer(msg['name'], clientsocket)
-			print self.clientid
 
 			# Berikan list Room yang ada
 			self.sendResponse(clientsocket, self.objectToJSON("rooms", GameServer))
+
+		elif msg['type'] == 'startgame':
+			rid = GameServer.getPlayerByPID(self.clientid).getRoomID()
+			if GameServer.getRoomList()[rid][1].getPlayerCount() == 3 :
+				GameServer.getRoomList()[rid][1].startGame()
+				GameServer.broadcastByRoom(rid, {"type":"startgame"})
 
 		elif msg['type'] == 'newroom':
 			# Buat room baru,
@@ -216,6 +234,9 @@ class MessageServer:
 			# Kasi tau bahwa room berhasil dibuat
 			self.sendResponse(clientsocket, json.dumps({"type":"newroom", "rid":rid}))
 
+			# Kasi tau bahwa dia adalah owner room (yang bisa start game kalo udah ada 3 orang)
+			GameServer.broadcastByPID(self.clientid, {"type":"owner"})
+
 		elif msg['type'] == 'join':
 			rid = msg['rid']
 			if rid >= 0:
@@ -224,21 +245,42 @@ class MessageServer:
 					# Beritahu ke player bahwa berhasil join
 					self.sendResponse(clientsocket, json.dumps({"type":"join", "rid":rid}))
 					# Kalau di room udah ada 3 orang, mulai Game-nya
-					if GameServer.getRoomList()[rid][1].getPlayerCount() == 3 :
-						GameServer.getRoomList()[rid][1].startGame()
-						GameServer.broadcastByRoom(rid, {"type":"startgame"})
-
+					# if GameServer.getRoomList()[rid][1].getPlayerCount() == 3 :
+					# 	GameServer.getRoomList()[rid][1].startGame()
+					# 	GameServer.broadcastByRoom(rid, {"type":"startgame"})
 				else:
 					# Beritahu ke player bahwa GAGAL join					
 					self.sendResponse(clientsocket, json.dumps({"type":"join", "rid":-1}))
 
 		elif msg['type'] == 'closegame':
+			rid = GameServer.getPlayerByPID(self.clientid).getRoomID()
+
 			if GameServer.getPlayerByPID(self.clientid) != "":
 				rid = GameServer.getPlayerByPID(self.clientid).getRoomID()
 				GameServer.playerQuit(self.clientid)
 
 				if GameServer.getRoomList()[rid] != "":
 					GameServer.broadcastByRoom(rid, json.loads(self.objectToJSON("players", GameServer)))
+
+			# Broadcast ke player yang merupakan owner
+			# ownerid = GameServer.getRoomList()[rid][1].getOwner()
+			# if ownerid != "":
+			# 	GameServer.broadcastByPID((GameServer.getPlayerByPID(ownerid)).getID(), {"type":"owner"})
+
+		elif msg['type'] == 'play':
+			rid = GameServer.getPlayerByPID(self.clientid).getRoomID()
+			game = GameServer.getRoomList()[rid][1]
+
+			if game.isGameStarted():
+				if game.getTurn() == self.clientid:
+					game.setBoard(int(msg['x']), int(msg['y']), GameServer.getPlayerByPID(self.clientid).getChar())
+					GameServer.broadcastByRoom(rid, {"type":"play", "x":msg['x'], "y":msg['y'], "char":GameServer.getPlayerByPID(self.clientid).getChar()})
+					game.nextTurn()
+				else:
+					print "[Room #" + str(rid) + "] Play denied. It's (" + str(game.getTurn()) + ") turn"
+			else:
+				print "[Room #" + str(rid) + "] Play denied. Game not started."
+
 
 		elif msg['type'] == 'request':
 			if msg['object'] == 'rooms':

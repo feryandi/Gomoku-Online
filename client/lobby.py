@@ -60,6 +60,7 @@ class Lobby(Frame):
     def onJoin(self):
         global cd_ridSelected
         global cd_id
+        global cd_currentRoom
         global cd_isOnGame
 
         cd_isOnGame = -1
@@ -76,7 +77,6 @@ class Lobby(Frame):
             pass
 
         if cd_isOnGame == 1:
-            cd_currentRoom = cd_ridSelected
             self.openGameWindow()
 
         cd_ridSelected = -1
@@ -102,6 +102,7 @@ class Lobby(Frame):
 
         cd_isOnGame = -1
         cd_currentRoom = -1
+        cd_isOwner = False
 
         self.parent.deiconify()
         self.gameWindow.destroy()
@@ -122,8 +123,10 @@ class Lobby(Frame):
         global cd_ridSelected
         global cd_playerList
         global cd_currentPlayers
+        global cd_currentRoom
         global cd_gameWindowOpen
         global cd_rooms
+        global cd_board
 
         msg = json.loads(message)
 
@@ -170,7 +173,7 @@ class Lobby(Frame):
             cd_gameStatus.set("Game is Started!")
 
         elif msg['type'] == 'play':
-            #self.app.test()
+            cd_board[int(msg['x'])][int(msg['y'])].set(msg['char'])
             pass
 
 

@@ -46,10 +46,13 @@ class GameRoom(Frame):
 
         cd_gameStatus = StringVar()
 
-        lblGame = Label(self, textvariable=cd_gameStatus, width=35, anchor=CENTER)
-        lblGame.grid(row=self.size-3, column=self.size, rowspan=3, padx=5)
+        STARTtn = Button(self, text="START GAME", width=25, command=self.onStartGame)
+        STARTtn.grid(row=self.size-1, column=self.size, padx=5, sticky=E+W)
 
-        cd_gameStatus.set("Waiting for 3 Players\nto Enter the Room")
+        # lblGame = Label(self, textvariable=cd_gameStatus, width=35, anchor=CENTER)
+        # lblGame.grid(row=self.size-3, column=self.size, rowspan=3, padx=5)
+
+        # cd_gameStatus.set("Waiting for 3 Players\nto Enter the Room")
 
         sendMessage({"type":"request", "object":"players"})
 
@@ -65,6 +68,13 @@ class GameRoom(Frame):
                                      textvariable=cd_board[x][y],
                                      command=lambda name=buttonName: self.pushButton(name))
                 boardButton.grid(row = x, column = y, pady=0)
+
+    def onStartGame(self):
+        sendMessage({"type":"startgame"})
+
+    def pushButton(self, name):
+        coord = name.split(',')
+        sendMessage({"type":"play", "x":coord[0], "y":coord[1]})
 
     def __del__ (self):
         print "Game Window closed"

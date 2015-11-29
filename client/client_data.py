@@ -16,8 +16,9 @@ cd_clientsocket = socket(AF_INET, SOCK_STREAM)
 cd_name = 'undefined'
 cd_board = [ [ 'x' for x in range(20) ] for x in range(20) ]
 cd_ridSelected = -1
-cd_currentRoom = -1
+cd_currentRoom = -2
 cd_isOnGame = -1
+cd_isOwner = False
 
 # Current Game Data
 cd_currentPlayers = []
