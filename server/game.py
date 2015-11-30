@@ -33,7 +33,7 @@ class Game:
 
 	def nextTurn (self):
 		self.turn += 1
-		if self.turn > len(self.players):
+		if self.turn > len(self.players) - 1:
 			self.turn = 0
 
 	def getPlayerList (self):
