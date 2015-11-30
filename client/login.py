@@ -65,7 +65,8 @@ class Login(Frame):
         cd_name = self.entryName.get()
         cd_host = self.entryIP.get()
         cd_port = int(self.entryPort.get())
-
+        cd_addr = (cd_host,cd_port)
+        
         cd_clientsocket.connect(cd_addr)
 
         # Kirim pesan bahwa player login ke server agar dicatat

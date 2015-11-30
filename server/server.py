@@ -11,13 +11,13 @@ def listener(clientsocket, clientaddr, GameServer):
 	del ms
 
 def main():
-    host = 'localhost'
+    host = ''
     port = 55555
     addr = (host, port)
 
     serversocket = socket(AF_INET, SOCK_STREAM)
     serversocket.bind(addr)
-    serversocket.listen(2)
+    serversocket.listen(5)
 
     gs = GameServer()
 
