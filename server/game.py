@@ -13,6 +13,49 @@ class Game:
 	def setBoard(self, x, y, char):
 		self.board[x][y] = char
 
+	def countSame(self, x, y, char, x_incr, y_incr):
+		count = 0
+		temp = char
+		x_iter = x + x_incr
+		y_iter = y + y_incr
+		while temp == char :
+			temp = self.board[x_iter][y_iter]
+			if temp == char :
+				count = count + 1
+			x_iter = x_iter + x_incr
+			y_iter = y_iter + y_incr
+		return count
+
+	def checkWin(self, x, y, char, x_incr, y_incr):
+		countA = self.countSame(x,y,char,x_incr,y_incr)
+		countB = self.countSame(x,y,char,-x_incr,-y_incr)
+
+		return countA + countB + 1 > 4
+
+	def checkVertical(self, x, y, char):
+		return self.checkWin(x,y,char,0,1)
+		
+	def checkHorizontal(self, x, y, char):
+		return self.checkWin(x,y,char,1,0)
+
+	def checkDiagonalA(self, x, y, char):
+		return self.checkWin(x,y,char,1,1)
+
+	def checkDiagonalB(self, x, y, char):
+		return self.checkWin(x,y,char,-1,1)
+
+	def isWin(self, x, y, char):
+		win = 0
+		if self.checkVertical(x,y,char) :
+			win = win + 1
+		if self.checkHorizontal(x,y,char) :
+			win = win + 1
+		if self.checkDiagonalA(x,y,char) :
+			win = win + 1
+		if self.checkDiagonalB(x,y,char) :
+			win = win + 1
+		return win > 0
+
 	def getOwner (self):
 		if self.getPlayerCount() == 0:
 			return ""

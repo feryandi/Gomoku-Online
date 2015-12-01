@@ -177,6 +177,8 @@ class MessageServer:
 			if game.isGameStarted():
 				if game.getTurn() == self.clientid:
 					game.setBoard(int(msg['x']), int(msg['y']), GameServer.getPlayerByPID(self.clientid).getChar())
+					if game.isWin(int(msg['x']), int(msg['y']), GameServer.getPlayerByPID(self.clientid).getChar()) :
+						GameServer.broadcastByRoom(rid, {"type":"win", "name":GameServer.getPlayerByPID(self.clientid).getName()})
 					GameServer.broadcastByRoom(rid, {"type":"play", "x":msg['x'], "y":msg['y'], "char":GameServer.getPlayerByPID(self.clientid).getChar()})
 					game.nextTurn()
 				else:
