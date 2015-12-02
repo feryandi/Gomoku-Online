@@ -1,15 +1,17 @@
-#include <QApplication>
-#include <QQmlApplicationEngine>
 #include "login.h"
+#include "lobby.h"
+#include "game.h"
+#include <QApplication>
 
 int main(int argc, char *argv[])
 {
-	QApplication app(argc, argv);
+	QApplication a(argc, argv);
+	login w;
+	w.show();
+	//lobby x;
+	//x.show();
+	//game z;
+	//z.show();
 
-	QQmlApplicationEngine engine;
-	engine.load(QUrl(QStringLiteral("qrc:/login.qml")));
-	engine.load(QUrl(QStringLiteral("qrc:/lobby.qml")));
-
-	return app.exec();
+	return a.exec();
 }
-

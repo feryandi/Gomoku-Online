@@ -1,20 +1,28 @@
+#-------------------------------------------------
+#
+# Project created by QtCreator 2015-12-02T21:20:42
+#
+#-------------------------------------------------
+
+QT       += core gui network
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = Gomoku-Online-Client
 TEMPLATE = app
 
-QT += qml quick widgets
 
-SOURCES += main.cpp \
-    login.cpp
+SOURCES += main.cpp\
+        login.cpp \
+    lobby.cpp \
+    game.cpp \
+    connection.cpp
 
-RESOURCES += qml.qrc
+HEADERS  += login.h \
+    lobby.h \
+    game.h \
+    connection.h
 
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
-# Default rules for deployment.
-include(deployment.pri)
-
-HEADERS += \
-    login.h
-
-DISTFILES +=
-
+FORMS    += login.ui \
+    lobby.ui \
+    game.ui
