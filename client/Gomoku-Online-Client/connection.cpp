@@ -25,9 +25,16 @@ connection::doConnect(string server_ip_, int server_port_)
 	}
 }
 
-int connection::doSendJSON(string message_)
+int connection::doSendJSON(QByteArray message_)
 {
-	if (socket->write(message_.c_str()) > 0){
+	QByteArray byteArray;
+
+	QDataStream stream(&byteArray, QIODevice::WriteOnly);
+	stream.setByteOrder(QDataStream::LittleEndian);
+	stream << message_.length()-13;
+	QByteArray to_send = byteArray + message_.simplified().replace(" ", "");
+
+	if (socket->write(to_send) > 0){
 		cout << "Message sent!" << endl;
 		return 1;
 	} else{
@@ -35,6 +42,12 @@ int connection::doSendJSON(string message_)
 		return 0;
 	}
 }
+
+/*QByteArray connection::doReceive()
+{
+	return socket->readAll();
+}*/
+
 
 string connection::getIP()
 {

@@ -10,7 +10,8 @@ class connection
 	public:
 		connection();
 		int doConnect(string server_ip_, int server_port_);
-		int doSendJSON(string message_);
+		int doSendJSON(QByteArray message_);
+		//QByteArray doReceive();
 		string getIP();
 		int getPort();
 		void setIP(string server_ip_);

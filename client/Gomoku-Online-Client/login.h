@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "connection.h"
+#include "lobby.h"
 
 namespace Ui {
 class login;

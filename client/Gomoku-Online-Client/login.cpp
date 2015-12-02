@@ -24,25 +24,16 @@ void login::on_buttonPlay_clicked()
 
 
 	if (connection_instance.doConnect(server_ip, server_port)){
-		cout << "berhasil konek" << endl;
-	} else{
-		cout << "gagal konek" << endl;
+		QJsonObject json_object;
+		json_object.insert("type", "login");
+		json_object.insert("name", nickname.c_str());
+
+		QJsonDocument json_document;
+		json_document.setObject(json_object);
+
+		if (connection_instance.doSendJSON(json_document.toJson())){
+
+		}
 	}
 
-	string message = "{\"type\":\"login\",\"name\":\"" + nickname + "\"}";
-	cout << message << endl;
-
-	QJsonObject json_object;
-	json_object.insert("type", "login");
-	json_object.insert("name", nickname.c_str());
-
-	QJsonDocument json_document;
-	json_document.setObject(json_object);
-
-	cout << json_document.toJson().toStdString() << endl;
-	if(connection_instance.doSendJSON(message)){
-		cout << "berhasil ngirim" << endl;
-	} else{
-		cout << "gagal ngirim" << endl;
-	}
 }
