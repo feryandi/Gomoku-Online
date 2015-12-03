@@ -2,7 +2,7 @@
 #define LOGIN_H
 
 #include <QMainWindow>
-#include "connection.h"
+#include "client.h"
 #include "lobby.h"
 
 namespace Ui {
@@ -19,14 +19,14 @@ class login : public QMainWindow
 
 	private slots:
 		void on_buttonPlay_clicked();
+		void do_destroy();
 
 	private:
 		Ui::login *ui;
 
 		//Login Property
-		string nickname;
+		QString nickname;
 
-		connection connection_instance;
 };
 
 #endif // LOGIN_H

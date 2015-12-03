@@ -182,14 +182,15 @@ class Lobby(Frame):
         
         print "Listening to server"
         while True:
-            size = struct.unpack("i", cd_clientsocket.recv(struct.calcsize("i")))
-            data = ""
-            while len(data) < size[0]:
-                msg = cd_clientsocket.recv(size[0] - len(data))
-                if not msg:
-                    return None
-                data += msg
+            # size = struct.unpack("i", cd_clientsocket.recv(struct.calcsize("i")))
+            # data = ""
+            # while len(data) < size[0]:
+            #     msg = cd_clientsocket.recv(size[0] - len(data))
+            #     if not msg:
+            #         return None
+            #     data += msg
 
+            data = cd_clientsocket.recv(4096)
             if not data:
                 break
             else:

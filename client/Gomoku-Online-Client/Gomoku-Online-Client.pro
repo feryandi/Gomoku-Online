@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         login.cpp \
     lobby.cpp \
     game.cpp \
-    connection.cpp
+    client.cpp \
+    interface.cpp
 
 HEADERS  += login.h \
     lobby.h \
     game.h \
-    connection.h
+    client.h \
+    interface.h
 
 FORMS    += login.ui \
     lobby.ui \

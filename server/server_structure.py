@@ -25,13 +25,13 @@ class GameServer:
 		msg = json.dumps(message,separators=(',',':'))
 		for player in self.players:
 			if ( ( player != "" ) and ( player.getRoomID() == rid ) ):
-				player.getIPort().send(struct.pack("i", len(msg)) + msg)
+				player.getIPort().send(msg)
 
 	def broadcastByPID (self, pid, message):
 		msg = json.dumps(message,separators=(',',':'))
 		player = self.players[pid]
 		if player != "":
-			player.getIPort().send(struct.pack("i", len(msg)) + msg)
+			player.getIPort().send(msg)
 
 
 	def newPlayer (self, name, iport):
@@ -91,14 +91,15 @@ class MessageServer:
 
 		while onLoop:			
 			try:
-				size = struct.unpack("i", clientsocket.recv(struct.calcsize("i")))
-				data = ""
-				while len(data) < size[0]:
-					msg = clientsocket.recv(size[0] - len(data))
-					if not msg:
-						return None
-					data += msg
+				# size = struct.unpack("i", clientsocket.recv(struct.calcsize("i")))
+				# data = ""
+				# while len(data) < size[0]:
+				# 	msg = clientsocket.recv(size[0] - len(data))
+					# if not msg:
+					# 	return None
+					# data += msg
 
+				data = clientsocket.recv(4096)
 				if not data:
 					break
 				else:
@@ -117,7 +118,8 @@ class MessageServer:
 		if msg['type'] == 'login':
 			# Register player ke Server
 			self.clientid = GameServer.newPlayer(msg['name'], clientsocket)
-
+			# Katakan bahwa login berhasil
+			self.sendResponse(clientsocket, json.dumps({"type":"login"}))
 			# Berikan list Room yang ada
 			self.sendResponse(clientsocket, self.objectToJSON("rooms", GameServer))
 
@@ -222,8 +224,8 @@ class MessageServer:
 		return msg
 
 	def sendResponse (self, clientsocket, msg):
-
-		clientsocket.send(struct.pack("i", len(msg)) + msg)
+		print msg
+		clientsocket.send(msg)
 
 
 	def __del__ (self):

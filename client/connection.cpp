@@ -1,6 +1,6 @@
 #include "connection.h"
 
-connection	connection_instance;
+//connection	connection_instance;
 
 connection::connection() :
 	server_ip("127.0.0.1"),
@@ -13,6 +13,7 @@ connection::doConnect(string server_ip_, int server_port_)
 {
 	setIP(server_ip_);
 	setPort(server_port_);
+
 	cout << "Connecting..." << endl;
 	socket->disconnectFromHost();
 	socket->connectToHost(server_ip.c_str(), server_port);

@@ -1,13 +1,11 @@
-#include "login.h"
-#include "lobby.h"
-#include "game.h"
 #include <QApplication>
+#include "interface.h"
 
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	login w;
-	w.show();
+	interface ui;
+
 	//lobby x;
 	//x.show();
 	//game z;

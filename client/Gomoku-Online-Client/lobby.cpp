@@ -12,3 +12,9 @@ lobby::~lobby()
 {
 	delete ui;
 }
+
+void lobby::refresh_room(QString data)
+{
+	qDebug() << data;
+}
+

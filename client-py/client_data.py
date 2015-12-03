@@ -30,7 +30,7 @@ def sendMessage(message):
 	global cd_clientsocket
 
 	msg = json.dumps(message,separators=(',',':'))
-	cd_clientsocket.send(struct.pack("i", len(msg)) + msg)
+	cd_clientsocket.send(msg)
 
 def test():
 	print cd_currentPlayers

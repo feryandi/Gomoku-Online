@@ -17,6 +17,13 @@ class connection
 		void setIP(string server_ip_);
 		void setPort(int server_port_);
 
+	signals:
+
+	public slots:
+		void connected();
+		void disconnected();
+		void bytesWritten(qint64 bytes);
+		void readyread();
 
 	private:
 		QTcpSocket *socket;
@@ -24,6 +31,6 @@ class connection
 		int server_port;
 };
 
-extern connection connection_instance;
+//extern connection connection_instance;
 
 #endif // CONNECTION_H

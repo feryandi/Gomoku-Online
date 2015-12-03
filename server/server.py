@@ -12,12 +12,13 @@ def listener(clientsocket, clientaddr, GameServer):
 
 def main():
     host = ''
-    port = 5551
+    port = 44444
     addr = (host, port)
 
     serversocket = socket(AF_INET, SOCK_STREAM)
     serversocket.bind(addr)
     serversocket.listen(5)
+    serversocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 
     gs = GameServer()
 
