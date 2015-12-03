@@ -22,7 +22,6 @@ class interface : public QObject
 		login *w_login;
 		lobby *w_lobby;
 		game *w_game;
-
 };
 
 #endif // INTERFACE_H

@@ -18,13 +18,13 @@ class login : public QMainWindow
 		~login();
 
 	private slots:
-		void on_buttonPlay_clicked();
 		void do_destroy();
+		void on_buttonPlay_clicked();
 
 	private:
 		Ui::login *ui;
 
-		//Login Property
+		/* Login property */
 		QString nickname;
 
 };

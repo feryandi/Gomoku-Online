@@ -18,18 +18,12 @@ class lobby : public QMainWindow
 
 	private slots:
 		void populate_room(QJsonArray data);
-
-		void on_buttonRefreshRoom_clicked();
-
-		void on_buttonCreateRoom_clicked();
-
-		void do_destroy();
-
 		void do_show();
-
+		void do_hide();
 		void on_join(int rid);
-
+		void on_buttonCreateRoom_clicked();
 		void on_buttonJoinRoom_clicked();
+		void on_buttonRefreshRoom_clicked();
 
 	private:
 		Ui::lobby *ui;

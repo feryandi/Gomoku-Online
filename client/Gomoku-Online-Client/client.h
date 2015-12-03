@@ -9,6 +9,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QCloseEvent>
+#include <QTableWidgetItem>
 
 class client : public QObject
 {
@@ -27,11 +28,10 @@ class client : public QObject
 		void on_create_room(int rid);
 		void on_start_game();
 
-
 	public slots:
 		void connected();
 		void disconnected();
-		void sendMessageJSON(QByteArray message);
+		void sendMessageJSONObject(QJsonObject message);
 		void readMessage();
 
 	private:
@@ -40,5 +40,6 @@ class client : public QObject
 		QJsonArray players;
 };
 
+/* Universal connection handler */
 extern client connection;
 #endif // CLIENT_H

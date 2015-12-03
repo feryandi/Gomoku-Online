@@ -12,7 +12,6 @@ void client::doConnect(QString server_ip, quint16 server_port)
 	connect(socket, SIGNAL(connected()),this, SLOT(connected()));
 	connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()));
 	connect(socket, SIGNAL(readyRead()),this, SLOT(readMessage()));
-	//connect(socket, SIGNAL(bytesWritten(qint64)),this, SLOT(sendMessageJSON()));
 
 	qDebug() << "connecting...";
 
@@ -37,23 +36,26 @@ void client::disconnected()
 	qDebug() << "disconnected...";
 }
 
-void client::sendMessageJSON(QByteArray message)
+void client::sendMessageJSONObject(QJsonObject message)
 {
 	qDebug() << "writing...";
 	qDebug() << message;
-	if (socket->write(message) < 0){
+
+	QJsonDocument json_document;
+	json_document.setObject(message);
+	if (socket->write(json_document.toJson(QJsonDocument::Compact)) < 0){
 		qDebug() << "Error: " << socket->errorString();
 	}
 }
 
 void client::readMessage()
 {
-	qDebug() << "reading...";
 	QByteArray message = socket->readAll();
+
+	qDebug() << "reading...";
 	qDebug() << message;
 
 	QJsonDocument json_document = QJsonDocument::fromJson(message);
-
 	QJsonObject json_object;
 	json_object = json_document.object();
 	QJsonValue type = json_object.value("type");

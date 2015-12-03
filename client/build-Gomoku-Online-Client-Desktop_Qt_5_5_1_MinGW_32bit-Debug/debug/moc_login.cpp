@@ -30,12 +30,12 @@ struct qt_meta_stringdata_login_t {
 static const qt_meta_stringdata_login_t qt_meta_stringdata_login = {
     {
 QT_MOC_LITERAL(0, 0, 5), // "login"
-QT_MOC_LITERAL(1, 6, 21), // "on_buttonPlay_clicked"
-QT_MOC_LITERAL(2, 28, 0), // ""
-QT_MOC_LITERAL(3, 29, 10) // "do_destroy"
+QT_MOC_LITERAL(1, 6, 10), // "do_destroy"
+QT_MOC_LITERAL(2, 17, 0), // ""
+QT_MOC_LITERAL(3, 18, 21) // "on_buttonPlay_clicked"
 
     },
-    "login\0on_buttonPlay_clicked\0\0do_destroy"
+    "login\0do_destroy\0\0on_buttonPlay_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -69,8 +69,8 @@ void login::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         login *_t = static_cast<login *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->on_buttonPlay_clicked(); break;
-        case 1: _t->do_destroy(); break;
+        case 0: _t->do_destroy(); break;
+        case 1: _t->on_buttonPlay_clicked(); break;
         default: ;
         }
     }

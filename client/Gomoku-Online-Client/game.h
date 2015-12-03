@@ -22,12 +22,12 @@ class game : public QMainWindow
 
 	private slots:
 		void populate_players(QJsonArray data);
-		void on_game_destroyed();
-		void do_destroy();
 		void do_show();
+		void do_hide();
 		void do_startgame();
-
+		void on_game_destroyed();
 		void on_buttonPlay_clicked();
+		void on_tableBoard_cellClicked(int row, int column);
 
 	private:
 		Ui::game *ui;

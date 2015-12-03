@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_client_t {
     QByteArrayData data[16];
-    char stringdata0[172];
+    char stringdata0[178];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -42,15 +42,15 @@ QT_MOC_LITERAL(9, 84, 14), // "on_create_room"
 QT_MOC_LITERAL(10, 99, 13), // "on_start_game"
 QT_MOC_LITERAL(11, 113, 9), // "connected"
 QT_MOC_LITERAL(12, 123, 12), // "disconnected"
-QT_MOC_LITERAL(13, 136, 15), // "sendMessageJSON"
-QT_MOC_LITERAL(14, 152, 7), // "message"
-QT_MOC_LITERAL(15, 160, 11) // "readMessage"
+QT_MOC_LITERAL(13, 136, 21), // "sendMessageJSONObject"
+QT_MOC_LITERAL(14, 158, 7), // "message"
+QT_MOC_LITERAL(15, 166, 11) // "readMessage"
 
     },
     "client\0on_login\0\0on_refresh_rooms\0"
     "data\0on_refresh_players\0on_join\0rid\0"
     "on_close_game\0on_create_room\0on_start_game\0"
-    "connected\0disconnected\0sendMessageJSON\0"
+    "connected\0disconnected\0sendMessageJSONObject\0"
     "message\0readMessage"
 };
 #undef QT_MOC_LITERAL
@@ -95,7 +95,7 @@ static const uint qt_meta_data_client[] = {
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QByteArray,   14,
+    QMetaType::Void, QMetaType::QJsonObject,   14,
     QMetaType::Void,
 
        0        // eod
@@ -116,7 +116,7 @@ void client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 6: _t->on_start_game(); break;
         case 7: _t->connected(); break;
         case 8: _t->disconnected(); break;
-        case 9: _t->sendMessageJSON((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
+        case 9: _t->sendMessageJSONObject((*reinterpret_cast< QJsonObject(*)>(_a[1]))); break;
         case 10: _t->readMessage(); break;
         default: ;
         }

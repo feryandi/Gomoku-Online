@@ -40,6 +40,16 @@ public:
         if (lobby->objectName().isEmpty())
             lobby->setObjectName(QStringLiteral("lobby"));
         lobby->resize(400, 340);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(lobby->sizePolicy().hasHeightForWidth());
+        lobby->setSizePolicy(sizePolicy);
+        lobby->setMinimumSize(QSize(400, 340));
+        lobby->setMaximumSize(QSize(400, 340));
+        QIcon icon;
+        icon.addFile(QStringLiteral("../../res/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        lobby->setWindowIcon(icon);
         centralwidget = new QWidget(lobby);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         labelCreateRoom = new QLabel(centralwidget);
@@ -86,7 +96,7 @@ public:
 
     void retranslateUi(QMainWindow *lobby)
     {
-        lobby->setWindowTitle(QApplication::translate("lobby", "MainWindow", 0));
+        lobby->setWindowTitle(QApplication::translate("lobby", "Enter a room", 0));
         labelCreateRoom->setText(QApplication::translate("lobby", "Enter a new room name and click create:", 0));
         labelJoinRoom->setText(QApplication::translate("lobby", "Or select a room from the list below:", 0));
         textCreateRoom->setPlaceholderText(QApplication::translate("lobby", "#HMIFDrama", 0));

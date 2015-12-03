@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_lobby_t {
     QByteArrayData data[11];
-    char stringdata0[140];
+    char stringdata0[137];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,19 +33,19 @@ QT_MOC_LITERAL(0, 0, 5), // "lobby"
 QT_MOC_LITERAL(1, 6, 13), // "populate_room"
 QT_MOC_LITERAL(2, 20, 0), // ""
 QT_MOC_LITERAL(3, 21, 4), // "data"
-QT_MOC_LITERAL(4, 26, 28), // "on_buttonRefreshRoom_clicked"
-QT_MOC_LITERAL(5, 55, 27), // "on_buttonCreateRoom_clicked"
-QT_MOC_LITERAL(6, 83, 10), // "do_destroy"
-QT_MOC_LITERAL(7, 94, 7), // "do_show"
-QT_MOC_LITERAL(8, 102, 7), // "on_join"
-QT_MOC_LITERAL(9, 110, 3), // "rid"
-QT_MOC_LITERAL(10, 114, 25) // "on_buttonJoinRoom_clicked"
+QT_MOC_LITERAL(4, 26, 7), // "do_show"
+QT_MOC_LITERAL(5, 34, 7), // "do_hide"
+QT_MOC_LITERAL(6, 42, 7), // "on_join"
+QT_MOC_LITERAL(7, 50, 3), // "rid"
+QT_MOC_LITERAL(8, 54, 27), // "on_buttonCreateRoom_clicked"
+QT_MOC_LITERAL(9, 82, 25), // "on_buttonJoinRoom_clicked"
+QT_MOC_LITERAL(10, 108, 28) // "on_buttonRefreshRoom_clicked"
 
     },
-    "lobby\0populate_room\0\0data\0"
-    "on_buttonRefreshRoom_clicked\0"
-    "on_buttonCreateRoom_clicked\0do_destroy\0"
-    "do_show\0on_join\0rid\0on_buttonJoinRoom_clicked"
+    "lobby\0populate_room\0\0data\0do_show\0"
+    "do_hide\0on_join\0rid\0on_buttonCreateRoom_clicked\0"
+    "on_buttonJoinRoom_clicked\0"
+    "on_buttonRefreshRoom_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -66,18 +66,18 @@ static const uint qt_meta_data_lobby[] = {
        1,    1,   49,    2, 0x08 /* Private */,
        4,    0,   52,    2, 0x08 /* Private */,
        5,    0,   53,    2, 0x08 /* Private */,
-       6,    0,   54,    2, 0x08 /* Private */,
-       7,    0,   55,    2, 0x08 /* Private */,
-       8,    1,   56,    2, 0x08 /* Private */,
+       6,    1,   54,    2, 0x08 /* Private */,
+       8,    0,   57,    2, 0x08 /* Private */,
+       9,    0,   58,    2, 0x08 /* Private */,
       10,    0,   59,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::QJsonArray,    3,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    7,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,    9,
     QMetaType::Void,
 
        0        // eod
@@ -90,12 +90,12 @@ void lobby::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->populate_room((*reinterpret_cast< QJsonArray(*)>(_a[1]))); break;
-        case 1: _t->on_buttonRefreshRoom_clicked(); break;
-        case 2: _t->on_buttonCreateRoom_clicked(); break;
-        case 3: _t->do_destroy(); break;
-        case 4: _t->do_show(); break;
-        case 5: _t->on_join((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 6: _t->on_buttonJoinRoom_clicked(); break;
+        case 1: _t->do_show(); break;
+        case 2: _t->do_hide(); break;
+        case 3: _t->on_join((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 4: _t->on_buttonCreateRoom_clicked(); break;
+        case 5: _t->on_buttonJoinRoom_clicked(); break;
+        case 6: _t->on_buttonRefreshRoom_clicked(); break;
         default: ;
         }
     }

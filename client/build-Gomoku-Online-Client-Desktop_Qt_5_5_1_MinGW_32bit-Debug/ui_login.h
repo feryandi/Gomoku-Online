@@ -42,6 +42,14 @@ public:
         if (login->objectName().isEmpty())
             login->setObjectName(QStringLiteral("login"));
         login->resize(320, 240);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(login->sizePolicy().hasHeightForWidth());
+        login->setSizePolicy(sizePolicy);
+        QIcon icon;
+        icon.addFile(QStringLiteral("../../res/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        login->setWindowIcon(icon);
         centralWidget = new QWidget(login);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         buttonPlay = new QPushButton(centralWidget);
@@ -53,6 +61,10 @@ public:
         font.setBold(true);
         font.setWeight(75);
         buttonPlay->setFont(font);
+        buttonPlay->setFocusPolicy(Qt::TabFocus);
+        buttonPlay->setCheckable(false);
+        buttonPlay->setAutoDefault(false);
+        buttonPlay->setFlat(false);
         textServerPort = new QLineEdit(centralWidget);
         textServerPort->setObjectName(QStringLiteral("textServerPort"));
         textServerPort->setGeometry(QRect(130, 150, 167, 24));
@@ -60,6 +72,7 @@ public:
         font1.setFamily(QStringLiteral("Lato"));
         font1.setPointSize(11);
         textServerPort->setFont(font1);
+        textServerPort->setFocusPolicy(Qt::StrongFocus);
         textServerPort->setCursorPosition(2);
         labelNickname = new QLabel(centralWidget);
         labelNickname->setObjectName(QStringLiteral("labelNickname"));
@@ -77,11 +90,13 @@ public:
         textServerIP->setObjectName(QStringLiteral("textServerIP"));
         textServerIP->setGeometry(QRect(130, 110, 167, 24));
         textServerIP->setFont(font1);
+        textServerIP->setFocusPolicy(Qt::TabFocus);
         textServerIP->setCursorPosition(1);
         textNickname = new QLineEdit(centralWidget);
         textNickname->setObjectName(QStringLiteral("textNickname"));
         textNickname->setGeometry(QRect(130, 70, 167, 24));
         textNickname->setFont(font1);
+        textNickname->setFocusPolicy(Qt::StrongFocus);
         labelTitle = new QLabel(centralWidget);
         labelTitle->setObjectName(QStringLiteral("labelTitle"));
         labelTitle->setGeometry(QRect(40, 10, 241, 31));
@@ -99,6 +114,9 @@ public:
         login->setCentralWidget(centralWidget);
 
         retranslateUi(login);
+
+        buttonPlay->setDefault(false);
+
 
         QMetaObject::connectSlotsByName(login);
     } // setupUi

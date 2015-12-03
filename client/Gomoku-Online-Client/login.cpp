@@ -14,6 +14,11 @@ login::~login()
 	delete ui;
 }
 
+void login::do_destroy()
+{
+	delete this;
+}
+
 void login::on_buttonPlay_clicked()
 {
 	nickname = ui->textNickname->text();
@@ -25,14 +30,5 @@ void login::on_buttonPlay_clicked()
 	QJsonObject json_object;
 	json_object.insert("type", "login");
 	json_object.insert("name", nickname.toStdString().c_str());
-
-	QJsonDocument json_document;
-	json_document.setObject(json_object);
-
-	connection.sendMessageJSON(json_document.toJson(QJsonDocument::Compact));
-}
-
-void login::do_destroy()
-{
-	delete this;
+	connection.sendMessageJSONObject(json_object);
 }

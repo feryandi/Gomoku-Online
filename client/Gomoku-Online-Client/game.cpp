@@ -19,29 +19,6 @@ void game::closeEvent(QCloseEvent *event)
 	event->ignore();
 }
 
-void game::do_destroy()
-{
-	this->hide();
-	qDebug() << "game destroyed!";
-	//delete this;
-}
-
-void game::do_show()
-{
-	this->show();
-}
-
-void game::on_game_destroyed()
-{
-	QJsonObject json_object;
-	json_object.insert("type", "closegame");
-
-	QJsonDocument json_document;
-	json_document.setObject(json_object);
-
-	connection.sendMessageJSON(json_document.toJson(QJsonDocument::Compact));
-}
-
 void game::populate_players(QJsonArray data)
 {
 	ui->listPlayer->clear();
@@ -51,22 +28,43 @@ void game::populate_players(QJsonArray data)
 		list_players += data.at(i).toObject().value("name").toString();
 	}
 	ui->listPlayer->addItems(list_players);
-
 }
 
-void game::on_buttonPlay_clicked()
+void game::do_show()
 {
-	QJsonObject json_object;
-	json_object.insert("type", "startgame");
+	this->show();
+}
 
-	QJsonDocument json_document;
-	json_document.setObject(json_object);
-
-	connection.sendMessageJSON(json_document.toJson(QJsonDocument::Compact));
+void game::do_hide()
+{
+	this->hide();
 }
 
 void game::do_startgame()
 {
 	ui->buttonPlay->setText("Game Started!");
 	ui->buttonPlay->setDisabled(1);
+}
+
+void game::on_game_destroyed()
+{
+	QJsonObject json_object;
+	json_object.insert("type", "closegame");
+	connection.sendMessageJSONObject(json_object);
+}
+
+void game::on_buttonPlay_clicked()
+{
+	QJsonObject json_object;
+	json_object.insert("type", "startgame");
+	connection.sendMessageJSONObject(json_object);
+}
+
+void game::on_tableBoard_cellClicked(int row, int column)
+{
+	QJsonObject json_object;
+	json_object.insert("type", "play");
+	json_object.insert("x", column);
+	json_object.insert("y", row);
+	connection.sendMessageJSONObject(json_object);
 }

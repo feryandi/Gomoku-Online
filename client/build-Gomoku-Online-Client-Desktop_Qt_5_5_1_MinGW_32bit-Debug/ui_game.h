@@ -42,6 +42,11 @@ public:
         if (game->objectName().isEmpty())
             game->setObjectName(QStringLiteral("game"));
         game->resize(610, 440);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(game->sizePolicy().hasHeightForWidth());
+        game->setSizePolicy(sizePolicy);
         game->setToolButtonStyle(Qt::ToolButtonIconOnly);
         centralwidget = new QWidget(game);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
@@ -191,7 +196,7 @@ public:
 
     void retranslateUi(QMainWindow *game)
     {
-        game->setWindowTitle(QApplication::translate("game", "MainWindow", 0));
+        game->setWindowTitle(QApplication::translate("game", "Gomoku Online", 0));
         QTableWidgetItem *___qtablewidgetitem = tableBoard->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("game", "0", 0));
         QTableWidgetItem *___qtablewidgetitem1 = tableBoard->horizontalHeaderItem(1);
