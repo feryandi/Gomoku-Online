@@ -75,7 +75,7 @@ static const uint qt_meta_data_client[] = {
 
  // signals: parameters
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,    4,
+    QMetaType::Void, QMetaType::QJsonArray,    4,
     QMetaType::Void,
 
  // slots: parameters
@@ -94,7 +94,7 @@ void client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->on_login(); break;
-        case 1: _t->on_refresh_rooms((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 1: _t->on_refresh_rooms((*reinterpret_cast< QJsonArray(*)>(_a[1]))); break;
         case 2: _t->on_refresh_players(); break;
         case 3: _t->connected(); break;
         case 4: _t->disconnected(); break;
@@ -112,7 +112,7 @@ void client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
             }
         }
         {
-            typedef void (client::*_t)(QString );
+            typedef void (client::*_t)(QJsonArray );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&client::on_refresh_rooms)) {
                 *result = 1;
             }
@@ -169,7 +169,7 @@ void client::on_login()
 }
 
 // SIGNAL 1
-void client::on_refresh_rooms(QString _t1)
+void client::on_refresh_rooms(QJsonArray _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);

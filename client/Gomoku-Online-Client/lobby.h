@@ -17,8 +17,11 @@ class lobby : public QMainWindow
 		~lobby();
 
 	private slots:
-		void refresh_room(QString response);
+		void populate_room(QJsonArray data);
 
+		void on_buttonRefreshRoom_clicked();
+
+		void on_buttonPlay_clicked();
 
 	private:
 		Ui::lobby *ui;

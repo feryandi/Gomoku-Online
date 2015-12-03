@@ -1,5 +1,7 @@
 *.lnk
 
+client/build-Gomoku-Online-Client-Desktop_Qt_5_5_1_MinGW_32bit-Debug
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

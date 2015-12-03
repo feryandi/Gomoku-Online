@@ -12,7 +12,7 @@ interface::interface(QObject *parent) : QObject(parent)
 void interface::on_login()
 {
 	lobby *w = new lobby;
-	connect(&connection, SIGNAL(on_refresh_rooms(QString)), w, SLOT(refresh_room(QString)));
+	connect(&connection, SIGNAL(on_refresh_rooms(QJsonArray)), w, SLOT(populate_room(QJsonArray)));
 	w->show();
 
 }

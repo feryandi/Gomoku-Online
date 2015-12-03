@@ -18,7 +18,7 @@ class client : public QObject
 
 	signals:
 		void on_login();
-		void on_refresh_rooms(QString data);
+		void on_refresh_rooms(QJsonArray data);
 		void on_refresh_players();
 
 

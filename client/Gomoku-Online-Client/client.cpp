@@ -35,7 +35,6 @@ void client::disconnected()
 void client::sendMessageJSON(QByteArray message)
 {
 	qDebug() << "writing...";
-	qDebug() << message;
 	if (socket->write(message) < 0){
 		qDebug() << "Error: " << socket->errorString();
 	}
@@ -45,6 +44,7 @@ void client::readMessage()
 {
 	qDebug() << "reading...";
 	QByteArray message = socket->readAll();
+	qDebug() << message;
 
 	QJsonDocument json_document = QJsonDocument::fromJson(message);
 
@@ -55,7 +55,8 @@ void client::readMessage()
 		emit on_login();
 	} else if (json_object.value("type") == "response"){
 		if (json_object.value("object") == "rooms"){
-			emit on_refresh_rooms(json_object.value("data").toString());
+
+			emit on_refresh_rooms(json_object.value("data").toArray());
 		} else if (json_object.value("object") == "players"){
 			emit on_refresh_players();
 		}

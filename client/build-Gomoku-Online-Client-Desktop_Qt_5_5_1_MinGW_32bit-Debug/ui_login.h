@@ -60,6 +60,7 @@ public:
         font1.setFamily(QStringLiteral("Lato"));
         font1.setPointSize(11);
         textServerPort->setFont(font1);
+        textServerPort->setCursorPosition(2);
         labelNickname = new QLabel(centralWidget);
         labelNickname->setObjectName(QStringLiteral("labelNickname"));
         labelNickname->setGeometry(QRect(20, 70, 81, 20));
@@ -76,6 +77,7 @@ public:
         textServerIP->setObjectName(QStringLiteral("textServerIP"));
         textServerIP->setGeometry(QRect(130, 110, 167, 24));
         textServerIP->setFont(font1);
+        textServerIP->setCursorPosition(1);
         textNickname = new QLineEdit(centralWidget);
         textNickname->setObjectName(QStringLiteral("textNickname"));
         textNickname->setGeometry(QRect(130, 70, 167, 24));
