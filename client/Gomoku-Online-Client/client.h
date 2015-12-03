@@ -8,6 +8,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QCloseEvent>
 
 class client : public QObject
 {
@@ -15,11 +16,16 @@ class client : public QObject
 	public:
 		explicit client(QObject *parent = 0);
 		void doConnect(QString server_ip, quint16 server_port);
+		int getRidByIndex(int idx);
 
 	signals:
 		void on_login();
 		void on_refresh_rooms(QJsonArray data);
-		void on_refresh_players();
+		void on_refresh_players(QJsonArray data);
+		void on_join(int rid);
+		void on_close_game();
+		void on_create_room(int rid);
+		void on_start_game();
 
 
 	public slots:
@@ -30,6 +36,8 @@ class client : public QObject
 
 	private:
 		QTcpSocket *socket;
+		QJsonArray rooms;
+		QJsonArray players;
 };
 
 extern client connection;

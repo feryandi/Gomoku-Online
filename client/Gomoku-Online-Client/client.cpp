@@ -22,6 +22,11 @@ void client::doConnect(QString server_ip, quint16 server_port)
 	}
 }
 
+int client::getRidByIndex(int idx)
+{
+	return rooms.at(idx).toObject().value("id").toInt();
+}
+
 void client::connected()
 {
 	qDebug() << "connected...";
@@ -35,6 +40,7 @@ void client::disconnected()
 void client::sendMessageJSON(QByteArray message)
 {
 	qDebug() << "writing...";
+	qDebug() << message;
 	if (socket->write(message) < 0){
 		qDebug() << "Error: " << socket->errorString();
 	}
@@ -50,16 +56,25 @@ void client::readMessage()
 
 	QJsonObject json_object;
 	json_object = json_document.object();
+	QJsonValue type = json_object.value("type");
 
-	if (json_object.value("type") == "login"){
+	if (type == "login"){
 		emit on_login();
-	} else if (json_object.value("type") == "response"){
+	} else if (type == "response"){
 		if (json_object.value("object") == "rooms"){
-
-			emit on_refresh_rooms(json_object.value("data").toArray());
+			rooms = json_object.value("data").toArray();
+			emit on_refresh_rooms(rooms);
 		} else if (json_object.value("object") == "players"){
-			emit on_refresh_players();
+			players = json_object.value("data").toArray();
+			emit on_refresh_players(players);
 		}
+	} else if (type == "newroom"){
+		emit on_create_room(json_object.value("rid").toInt());
+	} else if (type == "join"){
+		emit on_join(json_object.value("rid").toInt());
+	} else if (type == "closegame") {
+		emit on_close_game();
+	} else if (type == "startgame") {
+		emit on_start_game();
 	}
 }
-

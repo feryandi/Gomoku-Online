@@ -17,6 +17,12 @@ class interface : public QObject
 
 	public slots:
 		void on_login();
+
+	private:
+		login *w_login;
+		lobby *w_lobby;
+		game *w_game;
+
 };
 
 #endif // INTERFACE_H

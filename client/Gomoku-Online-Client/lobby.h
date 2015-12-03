@@ -21,7 +21,15 @@ class lobby : public QMainWindow
 
 		void on_buttonRefreshRoom_clicked();
 
-		void on_buttonPlay_clicked();
+		void on_buttonCreateRoom_clicked();
+
+		void do_destroy();
+
+		void do_show();
+
+		void on_join(int rid);
+
+		void on_buttonJoinRoom_clicked();
 
 	private:
 		Ui::lobby *ui;

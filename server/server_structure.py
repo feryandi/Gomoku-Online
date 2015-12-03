@@ -140,7 +140,7 @@ class MessageServer:
 			self.sendResponse(clientsocket, json.dumps({"type":"newroom", "rid":rid}))
 
 			# Kasi tau bahwa dia adalah owner room (yang bisa start game kalo udah ada 3 orang)
-			GameServer.broadcastByPID(self.clientid, {"type":"owner"})
+			# GameServer.broadcastByPID(self.clientid, {"type":"owner"})
 
 		elif msg['type'] == 'join':
 			rid = msg['rid']
@@ -149,6 +149,8 @@ class MessageServer:
 				if GameServer.playerJoin(self.clientid, rid) == 1:
 					# Beritahu ke player bahwa berhasil join
 					self.sendResponse(clientsocket, json.dumps({"type":"join", "rid":rid}))
+					GameServer.broadcastByRoom(rid, json.loads(self.objectToJSON("players", GameServer)))
+
 					# Kalau di room udah ada 3 orang, mulai Game-nya
 					# if GameServer.getRoomList()[rid][1].getPlayerCount() == 3 :
 					# 	GameServer.getRoomList()[rid][1].startGame()
@@ -167,6 +169,7 @@ class MessageServer:
 				if GameServer.getRoomList()[rid] != "":
 					GameServer.broadcastByRoom(rid, json.loads(self.objectToJSON("players", GameServer)))
 
+			self.sendResponse(clientsocket, json.dumps({"type":"closegame"}))
 			# Broadcast ke player yang merupakan owner
 			# ownerid = GameServer.getRoomList()[rid][1].getOwner()
 			# if ownerid != "":

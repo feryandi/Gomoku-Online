@@ -71,7 +71,7 @@
      <string>#HMIFDrama</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="buttonPlay">
+   <widget class="QPushButton" name="buttonCreateRoom">
     <property name="geometry">
      <rect>
       <x>300</x>

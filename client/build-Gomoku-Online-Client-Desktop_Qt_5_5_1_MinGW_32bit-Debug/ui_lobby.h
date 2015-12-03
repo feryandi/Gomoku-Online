@@ -30,7 +30,7 @@ public:
     QLabel *labelCreateRoom;
     QLabel *labelJoinRoom;
     QLineEdit *textCreateRoom;
-    QPushButton *buttonPlay;
+    QPushButton *buttonCreateRoom;
     QListWidget *listRoom;
     QPushButton *buttonJoinRoom;
     QPushButton *buttonRefreshRoom;
@@ -57,15 +57,15 @@ public:
         textCreateRoom->setObjectName(QStringLiteral("textCreateRoom"));
         textCreateRoom->setGeometry(QRect(20, 50, 271, 24));
         textCreateRoom->setFont(font);
-        buttonPlay = new QPushButton(centralwidget);
-        buttonPlay->setObjectName(QStringLiteral("buttonPlay"));
-        buttonPlay->setGeometry(QRect(300, 50, 81, 26));
+        buttonCreateRoom = new QPushButton(centralwidget);
+        buttonCreateRoom->setObjectName(QStringLiteral("buttonCreateRoom"));
+        buttonCreateRoom->setGeometry(QRect(300, 50, 81, 26));
         QFont font1;
         font1.setFamily(QStringLiteral("Lato Semibold"));
         font1.setPointSize(11);
         font1.setBold(true);
         font1.setWeight(75);
-        buttonPlay->setFont(font1);
+        buttonCreateRoom->setFont(font1);
         listRoom = new QListWidget(centralwidget);
         listRoom->setObjectName(QStringLiteral("listRoom"));
         listRoom->setGeometry(QRect(20, 120, 271, 192));
@@ -90,7 +90,7 @@ public:
         labelCreateRoom->setText(QApplication::translate("lobby", "Enter a new room name and click create:", 0));
         labelJoinRoom->setText(QApplication::translate("lobby", "Or select a room from the list below:", 0));
         textCreateRoom->setPlaceholderText(QApplication::translate("lobby", "#HMIFDrama", 0));
-        buttonPlay->setText(QApplication::translate("lobby", "Create", 0));
+        buttonCreateRoom->setText(QApplication::translate("lobby", "Create", 0));
         buttonJoinRoom->setText(QApplication::translate("lobby", "Join", 0));
         buttonRefreshRoom->setText(QApplication::translate("lobby", "Refresh", 0));
     } // retranslateUi

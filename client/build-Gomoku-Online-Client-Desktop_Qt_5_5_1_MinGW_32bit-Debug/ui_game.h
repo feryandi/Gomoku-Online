@@ -42,6 +42,7 @@ public:
         if (game->objectName().isEmpty())
             game->setObjectName(QStringLiteral("game"));
         game->resize(610, 440);
+        game->setToolButtonStyle(Qt::ToolButtonIconOnly);
         centralwidget = new QWidget(game);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         tableBoard = new QTableWidget(centralwidget);
