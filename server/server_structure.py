@@ -6,11 +6,11 @@ import json
 from game import *
 
 class GameServer:
-	character = ['X', 'O', 'Y', 'L', 'M'] # maximum 5 players per room (?)
+	character = ['X', 'O', '☺', 'L', 'M'] # maximum 5 players per room (?)
 
 	def __init__ (self):
-		self.players = [""] * 5 # maximum players online 
-		self.rooms = [""] * 5 # maximum rooms active
+		self.players = [""] * 25 # maximum players online 
+		self.rooms = [""] * 10 # maximum rooms active
 
 	def getPlayerList (self):
 		return self.players
