@@ -27,6 +27,8 @@ class client : public QObject
 		void on_close_game();
 		void on_create_room(int rid);
 		void on_start_game();
+		void on_update_game(QJsonObject data);
+
 
 	public slots:
 		void connected();

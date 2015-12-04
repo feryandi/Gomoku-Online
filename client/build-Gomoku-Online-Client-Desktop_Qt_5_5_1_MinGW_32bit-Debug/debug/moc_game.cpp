@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_game_t {
-    QByteArrayData data[13];
-    char stringdata0[147];
+    QByteArrayData data[14];
+    char stringdata0[161];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,17 +37,19 @@ QT_MOC_LITERAL(4, 36, 4), // "data"
 QT_MOC_LITERAL(5, 41, 7), // "do_show"
 QT_MOC_LITERAL(6, 49, 7), // "do_hide"
 QT_MOC_LITERAL(7, 57, 12), // "do_startgame"
-QT_MOC_LITERAL(8, 70, 17), // "on_game_destroyed"
-QT_MOC_LITERAL(9, 88, 21), // "on_buttonPlay_clicked"
-QT_MOC_LITERAL(10, 110, 25), // "on_tableBoard_cellClicked"
-QT_MOC_LITERAL(11, 136, 3), // "row"
-QT_MOC_LITERAL(12, 140, 6) // "column"
+QT_MOC_LITERAL(8, 70, 13), // "do_updategame"
+QT_MOC_LITERAL(9, 84, 17), // "on_game_destroyed"
+QT_MOC_LITERAL(10, 102, 21), // "on_buttonPlay_clicked"
+QT_MOC_LITERAL(11, 124, 25), // "on_tableBoard_cellClicked"
+QT_MOC_LITERAL(12, 150, 3), // "row"
+QT_MOC_LITERAL(13, 154, 6) // "column"
 
     },
     "game\0on_closegame\0\0populate_players\0"
     "data\0do_show\0do_hide\0do_startgame\0"
-    "on_game_destroyed\0on_buttonPlay_clicked\0"
-    "on_tableBoard_cellClicked\0row\0column"
+    "do_updategame\0on_game_destroyed\0"
+    "on_buttonPlay_clicked\0on_tableBoard_cellClicked\0"
+    "row\0column"
 };
 #undef QT_MOC_LITERAL
 
@@ -57,7 +59,7 @@ static const uint qt_meta_data_game[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -65,16 +67,17 @@ static const uint qt_meta_data_game[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   54,    2, 0x06 /* Public */,
+       1,    0,   59,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    1,   55,    2, 0x08 /* Private */,
-       5,    0,   58,    2, 0x08 /* Private */,
-       6,    0,   59,    2, 0x08 /* Private */,
-       7,    0,   60,    2, 0x08 /* Private */,
-       8,    0,   61,    2, 0x08 /* Private */,
-       9,    0,   62,    2, 0x08 /* Private */,
-      10,    2,   63,    2, 0x08 /* Private */,
+       3,    1,   60,    2, 0x08 /* Private */,
+       5,    0,   63,    2, 0x08 /* Private */,
+       6,    0,   64,    2, 0x08 /* Private */,
+       7,    0,   65,    2, 0x08 /* Private */,
+       8,    1,   66,    2, 0x08 /* Private */,
+       9,    0,   69,    2, 0x08 /* Private */,
+      10,    0,   70,    2, 0x08 /* Private */,
+      11,    2,   71,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
@@ -84,9 +87,10 @@ static const uint qt_meta_data_game[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QJsonObject,    4,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,   11,   12,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,   12,   13,
 
        0        // eod
 };
@@ -102,9 +106,10 @@ void game::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         case 2: _t->do_show(); break;
         case 3: _t->do_hide(); break;
         case 4: _t->do_startgame(); break;
-        case 5: _t->on_game_destroyed(); break;
-        case 6: _t->on_buttonPlay_clicked(); break;
-        case 7: _t->on_tableBoard_cellClicked((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 5: _t->do_updategame((*reinterpret_cast< QJsonObject(*)>(_a[1]))); break;
+        case 6: _t->on_game_destroyed(); break;
+        case 7: _t->on_buttonPlay_clicked(); break;
+        case 8: _t->on_tableBoard_cellClicked((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -144,13 +149,13 @@ int game::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 9)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 8;
+        _id -= 9;
     }
     return _id;
 }

@@ -46,6 +46,11 @@ void game::do_startgame()
 	ui->buttonPlay->setDisabled(1);
 }
 
+void game::do_updategame(QJsonObject data)
+{
+	ui->tableBoard->setItem(data.value("y").toInt(), data.value("x").toInt(), new QTableWidgetItem(data.value("char").toString()));
+}
+
 void game::on_game_destroyed()
 {
 	QJsonObject json_object;

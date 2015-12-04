@@ -47,6 +47,9 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(game->sizePolicy().hasHeightForWidth());
         game->setSizePolicy(sizePolicy);
+        QIcon icon;
+        icon.addFile(QStringLiteral("../../res/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        game->setWindowIcon(icon);
         game->setToolButtonStyle(Qt::ToolButtonIconOnly);
         centralwidget = new QWidget(game);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));

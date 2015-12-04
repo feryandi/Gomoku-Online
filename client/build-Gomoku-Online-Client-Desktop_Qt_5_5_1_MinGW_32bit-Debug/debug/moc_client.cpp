@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_client_t {
-    QByteArrayData data[16];
-    char stringdata0[178];
+    QByteArrayData data[17];
+    char stringdata0[193];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -40,18 +40,19 @@ QT_MOC_LITERAL(7, 66, 3), // "rid"
 QT_MOC_LITERAL(8, 70, 13), // "on_close_game"
 QT_MOC_LITERAL(9, 84, 14), // "on_create_room"
 QT_MOC_LITERAL(10, 99, 13), // "on_start_game"
-QT_MOC_LITERAL(11, 113, 9), // "connected"
-QT_MOC_LITERAL(12, 123, 12), // "disconnected"
-QT_MOC_LITERAL(13, 136, 21), // "sendMessageJSONObject"
-QT_MOC_LITERAL(14, 158, 7), // "message"
-QT_MOC_LITERAL(15, 166, 11) // "readMessage"
+QT_MOC_LITERAL(11, 113, 14), // "on_update_game"
+QT_MOC_LITERAL(12, 128, 9), // "connected"
+QT_MOC_LITERAL(13, 138, 12), // "disconnected"
+QT_MOC_LITERAL(14, 151, 21), // "sendMessageJSONObject"
+QT_MOC_LITERAL(15, 173, 7), // "message"
+QT_MOC_LITERAL(16, 181, 11) // "readMessage"
 
     },
     "client\0on_login\0\0on_refresh_rooms\0"
     "data\0on_refresh_players\0on_join\0rid\0"
     "on_close_game\0on_create_room\0on_start_game\0"
-    "connected\0disconnected\0sendMessageJSONObject\0"
-    "message\0readMessage"
+    "on_update_game\0connected\0disconnected\0"
+    "sendMessageJSONObject\0message\0readMessage"
 };
 #undef QT_MOC_LITERAL
 
@@ -61,27 +62,28 @@ static const uint qt_meta_data_client[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      12,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       7,       // signalCount
+       8,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   69,    2, 0x06 /* Public */,
-       3,    1,   70,    2, 0x06 /* Public */,
-       5,    1,   73,    2, 0x06 /* Public */,
-       6,    1,   76,    2, 0x06 /* Public */,
-       8,    0,   79,    2, 0x06 /* Public */,
-       9,    1,   80,    2, 0x06 /* Public */,
-      10,    0,   83,    2, 0x06 /* Public */,
+       1,    0,   74,    2, 0x06 /* Public */,
+       3,    1,   75,    2, 0x06 /* Public */,
+       5,    1,   78,    2, 0x06 /* Public */,
+       6,    1,   81,    2, 0x06 /* Public */,
+       8,    0,   84,    2, 0x06 /* Public */,
+       9,    1,   85,    2, 0x06 /* Public */,
+      10,    0,   88,    2, 0x06 /* Public */,
+      11,    1,   89,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      11,    0,   84,    2, 0x0a /* Public */,
-      12,    0,   85,    2, 0x0a /* Public */,
-      13,    1,   86,    2, 0x0a /* Public */,
-      15,    0,   89,    2, 0x0a /* Public */,
+      12,    0,   92,    2, 0x0a /* Public */,
+      13,    0,   93,    2, 0x0a /* Public */,
+      14,    1,   94,    2, 0x0a /* Public */,
+      16,    0,   97,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -91,11 +93,12 @@ static const uint qt_meta_data_client[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    7,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QJsonObject,    4,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QJsonObject,   14,
+    QMetaType::Void, QMetaType::QJsonObject,   15,
     QMetaType::Void,
 
        0        // eod
@@ -114,10 +117,11 @@ void client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 4: _t->on_close_game(); break;
         case 5: _t->on_create_room((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 6: _t->on_start_game(); break;
-        case 7: _t->connected(); break;
-        case 8: _t->disconnected(); break;
-        case 9: _t->sendMessageJSONObject((*reinterpret_cast< QJsonObject(*)>(_a[1]))); break;
-        case 10: _t->readMessage(); break;
+        case 7: _t->on_update_game((*reinterpret_cast< QJsonObject(*)>(_a[1]))); break;
+        case 8: _t->connected(); break;
+        case 9: _t->disconnected(); break;
+        case 10: _t->sendMessageJSONObject((*reinterpret_cast< QJsonObject(*)>(_a[1]))); break;
+        case 11: _t->readMessage(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -165,6 +169,12 @@ void client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
                 *result = 6;
             }
         }
+        {
+            typedef void (client::*_t)(QJsonObject );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&client::on_update_game)) {
+                *result = 7;
+            }
+        }
     }
 }
 
@@ -193,13 +203,13 @@ int client::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 12;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
+        if (_id < 12)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 11;
+        _id -= 12;
     }
     return _id;
 }
@@ -248,5 +258,12 @@ void client::on_create_room(int _t1)
 void client::on_start_game()
 {
     QMetaObject::activate(this, &staticMetaObject, 6, Q_NULLPTR);
+}
+
+// SIGNAL 7
+void client::on_update_game(QJsonObject _t1)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 7, _a);
 }
 QT_END_MOC_NAMESPACE

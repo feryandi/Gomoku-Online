@@ -78,5 +78,7 @@ void client::readMessage()
 		emit on_close_game();
 	} else if (type == "startgame") {
 		emit on_start_game();
+	} else if (type == "play") {
+		emit on_update_game(json_object);
 	}
 }
