@@ -13,6 +13,12 @@ gameover::~gameover()
 	delete ui;
 }
 
+void gameover::closeEvent(QCloseEvent *event)
+{
+	on_buttonOK_clicked();
+	event->ignore();
+}
+
 void gameover::on_buttonOK_clicked()
 {
 	QJsonObject json_object;
@@ -32,7 +38,7 @@ void gameover::do_show(QJsonObject data)
 	this->show();
 }
 
-void gameover::delete_game_over()
+void gameover::do_delete()
 {
 	delete this;
 }
