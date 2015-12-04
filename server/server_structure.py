@@ -25,13 +25,13 @@ class GameServer:
 		msg = json.dumps(message,separators=(',',':'))
 		for player in self.players:
 			if ( ( player != "" ) and ( player.getRoomID() == rid ) ):
-				player.getIPort().send(msg + "\n")
+				player.getIPort().send(msg + "\r\n")
 
 	def broadcastByPID (self, pid, message):
 		msg = json.dumps(message,separators=(',',':'))
 		player = self.players[pid]
 		if player != "":
-			player.getIPort().send(msg + "\n")
+			player.getIPort().send(msg + "\r\n")
 
 
 	def newPlayer (self, name, iport):
@@ -101,7 +101,7 @@ class MessageServer:
 					# data += msg
 
 				msg = clientsocket.recv(4096)
-				msg = msg.split("\n", 1)
+				msg = msg.split("\r\n", 1)
 				data = msg[0]
 				if not data:
 					break
@@ -192,7 +192,23 @@ class MessageServer:
 					game.setBoard(int(msg['x']), int(msg['y']), GameServer.getPlayerByPID(self.clientid).getChar())
 					if game.isWin(int(msg['x']), int(msg['y']), GameServer.getPlayerByPID(self.clientid).getChar()) :
 						GameServer.broadcastByRoom(rid, {"type":"win", "id":self.clientid, "name":GameServer.getPlayerByPID(self.clientid).getName()})
-						
+						for i in range(game.highlight[0]/10) :
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":msg['x'], "y":msg['y'] + i})
+						for i in range(game.highlight[1]/10) :
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":msg['x'], "y":msg['y'] - i})
+						for i in range(game.highlight[2]/10) :
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":msg['x'] + i, "y":msg['y']})
+						for i in range(game.highlight[3]/10) :
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":msg['x'] - i, "y":msg['y']})
+						for i in range(game.highlight[4]/10) :
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":msg['x'] + i, "y":msg['y'] + i})
+						for i in range(game.highlight[5]/10) :
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":msg['x'] - i, "y":msg['y'] - i})
+						for i in range(game.highlight[6]/10) :
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":msg['x'] - i, "y":msg['y'] + i})
+						for i in range(game.highlight[7]/10) :
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":msg['x'] + i, "y":msg['y'] - i})
+
 					game.nextTurn()
 					GameServer.broadcastByRoom(rid, {"type":"play", "x":msg['x'], "y":msg['y'], "char":GameServer.getPlayerByPID(self.clientid).getChar(), "turn_id":game.getTurn()})
 				else:
@@ -237,7 +253,7 @@ class MessageServer:
 
 	def sendResponse (self, clientsocket, msg):
 		print msg
-		clientsocket.send(msg +"\n")
+		clientsocket.send(msg +"\r\n")
 
 
 	def __del__ (self):
