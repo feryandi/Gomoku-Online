@@ -34,6 +34,10 @@ public:
     QLabel *labelRoom;
     QLineEdit *textRoom;
     QPushButton *buttonPlay;
+    QListWidget *listChat;
+    QLabel *labelChat;
+    QLineEdit *textChat;
+    QPushButton *buttonChat;
 
     void setupUi(QMainWindow *game)
     {
@@ -156,7 +160,7 @@ public:
         tableBoard->verticalHeader()->setMinimumSectionSize(10);
         listPlayer = new QListWidget(centralwidget);
         listPlayer->setObjectName(QStringLiteral("listPlayer"));
-        listPlayer->setGeometry(QRect(440, 90, 151, 192));
+        listPlayer->setGeometry(QRect(440, 90, 151, 111));
         labelListPlayer = new QLabel(centralwidget);
         labelListPlayer->setObjectName(QStringLiteral("labelListPlayer"));
         labelListPlayer->setGeometry(QRect(440, 70, 151, 20));
@@ -172,6 +176,7 @@ public:
         textRoom->setObjectName(QStringLiteral("textRoom"));
         textRoom->setGeometry(QRect(440, 40, 151, 24));
         textRoom->setFont(font1);
+        textRoom->setReadOnly(true);
         buttonPlay = new QPushButton(centralwidget);
         buttonPlay->setObjectName(QStringLiteral("buttonPlay"));
         buttonPlay->setGeometry(QRect(440, 390, 151, 33));
@@ -181,6 +186,21 @@ public:
         font2.setBold(true);
         font2.setWeight(75);
         buttonPlay->setFont(font2);
+        listChat = new QListWidget(centralwidget);
+        listChat->setObjectName(QStringLiteral("listChat"));
+        listChat->setGeometry(QRect(440, 230, 151, 111));
+        labelChat = new QLabel(centralwidget);
+        labelChat->setObjectName(QStringLiteral("labelChat"));
+        labelChat->setGeometry(QRect(440, 210, 151, 20));
+        labelChat->setFont(font1);
+        textChat = new QLineEdit(centralwidget);
+        textChat->setObjectName(QStringLiteral("textChat"));
+        textChat->setGeometry(QRect(440, 340, 121, 24));
+        textChat->setFont(font1);
+        buttonChat = new QPushButton(centralwidget);
+        buttonChat->setObjectName(QStringLiteral("buttonChat"));
+        buttonChat->setGeometry(QRect(560, 339, 32, 26));
+        buttonChat->setFont(font2);
         game->setCentralWidget(centralwidget);
 
         retranslateUi(game);
@@ -275,6 +295,9 @@ public:
         labelRoom->setText(QApplication::translate("game", "Room:", 0));
         textRoom->setPlaceholderText(QApplication::translate("game", "#HMIFDrama", 0));
         buttonPlay->setText(QApplication::translate("game", "Start Game!", 0));
+        labelChat->setText(QApplication::translate("game", "Chat Box", 0));
+        textChat->setPlaceholderText(QApplication::translate("game", "Say hello :)", 0));
+        buttonChat->setText(QApplication::translate("game", ">", 0));
     } // retranslateUi
 
 };

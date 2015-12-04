@@ -26,6 +26,18 @@ int client::getRidByIndex(int idx)
 	return rooms.at(idx).toObject().value("id").toInt();
 }
 
+QString client::getRoomNameByRid(int rid)
+{
+	QString ret = "3rr0R";
+	for (int i = 0; i < rooms.size(); i++)
+	{
+		if ( rid == getRidByIndex(i) ) {
+			ret = rooms.at(i).toObject().value("name").toString();
+		}
+	}
+	return ret;
+}
+
 QJsonArray client::getPlayers()
 {
 	return players;

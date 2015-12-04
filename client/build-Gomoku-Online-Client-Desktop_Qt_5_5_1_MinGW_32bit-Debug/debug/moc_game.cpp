@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_game_t {
-    QByteArrayData data[14];
-    char stringdata0[161];
+    QByteArrayData data[15];
+    char stringdata0[165];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,18 +35,19 @@ QT_MOC_LITERAL(2, 18, 0), // ""
 QT_MOC_LITERAL(3, 19, 16), // "populate_players"
 QT_MOC_LITERAL(4, 36, 4), // "data"
 QT_MOC_LITERAL(5, 41, 7), // "do_show"
-QT_MOC_LITERAL(6, 49, 7), // "do_hide"
-QT_MOC_LITERAL(7, 57, 12), // "do_startgame"
-QT_MOC_LITERAL(8, 70, 13), // "do_updategame"
-QT_MOC_LITERAL(9, 84, 17), // "on_game_destroyed"
-QT_MOC_LITERAL(10, 102, 21), // "on_buttonPlay_clicked"
-QT_MOC_LITERAL(11, 124, 25), // "on_tableBoard_cellClicked"
-QT_MOC_LITERAL(12, 150, 3), // "row"
-QT_MOC_LITERAL(13, 154, 6) // "column"
+QT_MOC_LITERAL(6, 49, 3), // "rid"
+QT_MOC_LITERAL(7, 53, 7), // "do_hide"
+QT_MOC_LITERAL(8, 61, 12), // "do_startgame"
+QT_MOC_LITERAL(9, 74, 13), // "do_updategame"
+QT_MOC_LITERAL(10, 88, 17), // "on_game_destroyed"
+QT_MOC_LITERAL(11, 106, 21), // "on_buttonPlay_clicked"
+QT_MOC_LITERAL(12, 128, 25), // "on_tableBoard_cellClicked"
+QT_MOC_LITERAL(13, 154, 3), // "row"
+QT_MOC_LITERAL(14, 158, 6) // "column"
 
     },
     "game\0on_closegame\0\0populate_players\0"
-    "data\0do_show\0do_hide\0do_startgame\0"
+    "data\0do_show\0rid\0do_hide\0do_startgame\0"
     "do_updategame\0on_game_destroyed\0"
     "on_buttonPlay_clicked\0on_tableBoard_cellClicked\0"
     "row\0column"
@@ -71,26 +72,26 @@ static const uint qt_meta_data_game[] = {
 
  // slots: name, argc, parameters, tag, flags
        3,    1,   60,    2, 0x08 /* Private */,
-       5,    0,   63,    2, 0x08 /* Private */,
-       6,    0,   64,    2, 0x08 /* Private */,
-       7,    0,   65,    2, 0x08 /* Private */,
-       8,    1,   66,    2, 0x08 /* Private */,
-       9,    0,   69,    2, 0x08 /* Private */,
-      10,    0,   70,    2, 0x08 /* Private */,
-      11,    2,   71,    2, 0x08 /* Private */,
+       5,    1,   63,    2, 0x08 /* Private */,
+       7,    0,   66,    2, 0x08 /* Private */,
+       8,    0,   67,    2, 0x08 /* Private */,
+       9,    1,   68,    2, 0x08 /* Private */,
+      10,    0,   71,    2, 0x08 /* Private */,
+      11,    0,   72,    2, 0x08 /* Private */,
+      12,    2,   73,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
 
  // slots: parameters
     QMetaType::Void, QMetaType::QJsonArray,    4,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    6,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QJsonObject,    4,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,   12,   13,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,   13,   14,
 
        0        // eod
 };
@@ -103,7 +104,7 @@ void game::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         switch (_id) {
         case 0: _t->on_closegame(); break;
         case 1: _t->populate_players((*reinterpret_cast< QJsonArray(*)>(_a[1]))); break;
-        case 2: _t->do_show(); break;
+        case 2: _t->do_show((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 3: _t->do_hide(); break;
         case 4: _t->do_startgame(); break;
         case 5: _t->do_updategame((*reinterpret_cast< QJsonObject(*)>(_a[1]))); break;

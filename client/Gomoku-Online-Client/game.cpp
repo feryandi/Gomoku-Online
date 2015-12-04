@@ -11,6 +11,7 @@ game::game(QWidget *parent) :
 game::~game()
 {
 	delete ui;
+
 }
 
 void game::closeEvent(QCloseEvent *event)
@@ -36,8 +37,9 @@ void game::populate_players(QJsonArray data)
 	ui->listPlayer->addItems(list_players);
 }
 
-void game::do_show()
+void game::do_show(int rid)
 {
+	ui->textRoom->setText(connection.getRoomNameByRid(rid));
 	this->show();
 }
 

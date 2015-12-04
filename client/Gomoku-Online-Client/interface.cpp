@@ -20,7 +20,7 @@ void interface::on_login()
 
 	connect(&connection, SIGNAL(on_create_room(int)), w_lobby, SLOT(on_join(int)));
 	connect(&connection, SIGNAL(on_join(int)), w_lobby, SLOT(do_hide()));
-	connect(&connection, SIGNAL(on_join(int)), w_game, SLOT(do_show()));
+	connect(&connection, SIGNAL(on_join(int)), w_game, SLOT(do_show(int)));
 
 	connect(w_game, SIGNAL(on_closegame()), w_game, SLOT(on_game_destroyed()));
 	connect(&connection, SIGNAL(on_close_game()), w_game, SLOT(do_hide()));

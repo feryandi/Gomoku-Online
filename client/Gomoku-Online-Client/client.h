@@ -18,6 +18,7 @@ class client : public QObject
 		explicit client(QObject *parent = 0);
 		void doConnect(QString server_ip, quint16 server_port);
 		int getRidByIndex(int idx);
+		QString getRoomNameByRid(int rid);
 		QJsonArray getPlayers();
 		int getPid();
 

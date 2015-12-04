@@ -33,6 +33,7 @@ public:
     QPushButton *buttonCreateRoom;
     QListWidget *listRoom;
     QPushButton *buttonJoinRoom;
+    QPushButton *buttonSpectate;
     QPushButton *buttonRefreshRoom;
 
     void setupUi(QMainWindow *lobby)
@@ -83,9 +84,13 @@ public:
         buttonJoinRoom->setObjectName(QStringLiteral("buttonJoinRoom"));
         buttonJoinRoom->setGeometry(QRect(300, 120, 81, 26));
         buttonJoinRoom->setFont(font1);
+        buttonSpectate = new QPushButton(centralwidget);
+        buttonSpectate->setObjectName(QStringLiteral("buttonSpectate"));
+        buttonSpectate->setGeometry(QRect(300, 160, 81, 26));
+        buttonSpectate->setFont(font1);
         buttonRefreshRoom = new QPushButton(centralwidget);
         buttonRefreshRoom->setObjectName(QStringLiteral("buttonRefreshRoom"));
-        buttonRefreshRoom->setGeometry(QRect(300, 160, 81, 26));
+        buttonRefreshRoom->setGeometry(QRect(300, 200, 81, 26));
         buttonRefreshRoom->setFont(font1);
         lobby->setCentralWidget(centralwidget);
 
@@ -102,6 +107,7 @@ public:
         textCreateRoom->setPlaceholderText(QApplication::translate("lobby", "#HMIFDrama", 0));
         buttonCreateRoom->setText(QApplication::translate("lobby", "Create", 0));
         buttonJoinRoom->setText(QApplication::translate("lobby", "Join", 0));
+        buttonSpectate->setText(QApplication::translate("lobby", "Spectate", 0));
         buttonRefreshRoom->setText(QApplication::translate("lobby", "Refresh", 0));
     } // retranslateUi
 

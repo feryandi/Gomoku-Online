@@ -145,11 +145,32 @@
      <string>Join</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="buttonRefreshRoom">
+   <widget class="QPushButton" name="buttonSpectate">
     <property name="geometry">
      <rect>
       <x>300</x>
       <y>160</y>
+      <width>81</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Lato Semibold</family>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Spectate</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonRefreshRoom">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>200</y>
       <width>81</width>
       <height>26</height>
      </rect>

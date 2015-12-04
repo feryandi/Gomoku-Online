@@ -22,7 +22,7 @@ class game : public QMainWindow
 
 	private slots:
 		void populate_players(QJsonArray data);
-		void do_show();
+		void do_show(int rid);
 		void do_hide();
 		void do_startgame();
 		void do_updategame(QJsonObject data);
