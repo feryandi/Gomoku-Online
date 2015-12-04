@@ -13,8 +13,10 @@ class Game:
 		self.highlight = [ 0 for x in range(8) ] # verticalA, verticalB, horizontalA, horizontalB, diagonalAA, diagonalAB, diagonalBA, diagonalBB
 
 	def setBoard(self, x, y, char):
-		if ( self.board[x][y] == 0 ):
-			self.board[x][y] = char
+		self.board[x][y] = char
+
+	def isBoardSet(self, x, y):
+		return (self.board[x][y] != 0)
 
 	def countSame(self, x, y, char, x_incr, y_incr):
 		count = 0
@@ -80,6 +82,9 @@ class Game:
 
 	def isGameStarted (self):
 		return self.isStart
+
+	def getBoard(self):
+		return self.board
 
 	def getPlayerCount (self):
 		return len(self.players)
