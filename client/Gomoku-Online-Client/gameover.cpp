@@ -33,7 +33,8 @@ void gameover::do_show(QJsonObject data)
 	if (data.value("id") != connection.getPid()){
 		ui->labelGameover->setText("YOU SUCK MAN :(");
 		ui->labelWinner->setText("The winner is " + data.value("name").toString());
-
+	} else {
+		ui->labelWinner->setText("You are the champion!");
 	}
 	this->show();
 }

@@ -111,6 +111,8 @@ void client::readMessage()
 			emit on_update_game(json_object);
 		} else if (type == "win") {
 			emit on_game_over(json_object);
+		} else if (type == "highlight") {
+			emit on_highlight(json_object);
 		}
 	}
 

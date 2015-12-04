@@ -129,7 +129,7 @@ class MessageServer:
 
 		elif msg['type'] == 'startgame':
 			rid = GameServer.getPlayerByPID(self.clientid).getRoomID()
-			if GameServer.getRoomList()[rid][1].getPlayerCount() == 3 :
+			if GameServer.getRoomList()[rid][1].getPlayerCount() == 1 :
 				GameServer.getRoomList()[rid][1].startGame()
 				GameServer.broadcastByRoom(rid, {"type":"startgame"})
 
@@ -200,7 +200,11 @@ class MessageServer:
 					game.setBoard(int(msg['x']), int(msg['y']), GameServer.getPlayerByPID(self.clientid).getChar())
 					if game.isWin(int(msg['x']), int(msg['y']), GameServer.getPlayerByPID(self.clientid).getChar()) :
 						GameServer.broadcastByRoom(rid, {"type":"win", "id":self.clientid, "name":GameServer.getPlayerByPID(self.clientid).getName()})
-										
+						
+						print game.highlight
+						print x
+						print y
+
 						GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x, "y":y})
 						for i in range(game.highlight[0]/10) :
 							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x, "y":y + i})

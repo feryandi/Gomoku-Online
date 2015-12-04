@@ -28,9 +28,11 @@ void interface::on_login()
 
 	connect(&connection, SIGNAL(on_update_game(QJsonObject)), w_game, SLOT(do_updategame(QJsonObject)));
 	connect(&connection, SIGNAL(on_start_game()), w_game, SLOT(do_startgame()));
+	connect(&connection, SIGNAL(on_highlight(QJsonObject)), w_game, SLOT(do_highlight(QJsonObject)));
 
 	connect(&connection, SIGNAL(on_game_over(QJsonObject)), w_gameover, SLOT(do_show(QJsonObject)));
 	connect(w_gameover, SIGNAL(on_deletegameover()), w_gameover, SLOT(do_delete()));
+
 
 
 	w_lobby->show();

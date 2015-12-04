@@ -33,6 +33,7 @@ class client : public QObject
 		void on_start_game();
 		void on_update_game(QJsonObject data);
 		void on_game_over(QJsonObject data);
+		void on_highlight(QJsonObject data);
 
 
 	public slots:

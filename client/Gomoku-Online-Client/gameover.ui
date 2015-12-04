@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Gameover</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../../res/icon.png</normaloff>../../res/icon.png</iconset>
   </property>
   <widget class="QLabel" name="labelGameover">
    <property name="geometry">
@@ -31,7 +35,7 @@
     </font>
    </property>
    <property name="text">
-    <string>YOU WIN!</string>
+    <string>Congratulation :)</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

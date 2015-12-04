@@ -26,6 +26,7 @@ class game : public QMainWindow
 		void do_hide();
 		void do_startgame();
 		void do_updategame(QJsonObject data);
+		void do_highlight(QJsonObject data);
 		void on_game_destroyed();
 		void on_buttonPlay_clicked();
 		void on_tableBoard_cellClicked(int row, int column);

@@ -57,7 +57,8 @@ void game::do_startgame()
 
 void game::do_updategame(QJsonObject data)
 {
-	ui->tableBoard->setItem(data.value("y").toInt(), data.value("x").toInt(), new QTableWidgetItem(data.value("char").toString()));
+	ui->tableBoard->setItem(data.value("y").toInt(), data.value("x").toInt(), new QTableWidgetItem());
+	ui->tableBoard->item(data.value("y").toInt(), data.value("x").toInt())->setText(data.value("char").toString());
 
 	for (int i=0; i<connection.getPlayers().size(); i++){
 		if (data.value("turn_id") == connection.getPlayers().at(i).toObject().value("id")){
@@ -66,7 +67,13 @@ void game::do_updategame(QJsonObject data)
 			ui->listPlayer->item(i)->setBackgroundColor(Qt::white);
 		}
 	}
+}
 
+void game::do_highlight(QJsonObject data)
+{
+	qDebug() << data.value("y").toString() + " haha " + data.value("x").toString();
+	qDebug() << "masuk woy";
+	ui->tableBoard->item(data.value("y").toInt(), data.value("x").toInt())->setBackgroundColor(Qt::blue);
 }
 
 void game::on_game_destroyed()
