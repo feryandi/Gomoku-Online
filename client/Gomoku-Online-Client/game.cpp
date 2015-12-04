@@ -28,7 +28,7 @@ void game::populate_players(QJsonArray data)
 	qDebug() << data.at(0);
 
 	for (int i=0; i<data.size(); i++){
-		player_name = data.at(i).toObject().value("name").toString();
+		player_name = "[" + data.at(i).toObject().value("char").toString() + "] " + data.at(i).toObject().value("name").toString();
 		if (data.at(i).toObject().value("id") == connection.getPid()){
 			player_name += " (YOU)";
 		}
