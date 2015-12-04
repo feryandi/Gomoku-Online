@@ -33,7 +33,7 @@ void interface::on_login()
 	connect(&connection, SIGNAL(on_game_over(QJsonObject)), w_gameover, SLOT(do_show(QJsonObject)));
 	connect(w_gameover, SIGNAL(on_deletegameover()), w_gameover, SLOT(do_delete()));
 
-
+	connect(&connection, SIGNAL(on_chat(QJsonObject)), w_game, SLOT(do_chat(QJsonObject)));
 
 	w_lobby->show();
 }

@@ -26,6 +26,24 @@ int client::getRidByIndex(int idx)
 	return rooms.at(idx).toObject().value("id").toInt();
 }
 
+int client::getPidByIndex(int idx)
+{
+	return players.at(idx).toObject().value("id").toInt();
+}
+
+
+QString client::getNameByPid(int pid)
+{
+	QString ret = "?";
+	for (int i = 0; i < players.size(); i++)
+	{
+		if ( pid == getPidByIndex(i) ) {
+			ret = players.at(i).toObject().value("name").toString();
+		}
+	}
+	return ret;
+}
+
 QString client::getRoomNameByRid(int rid)
 {
 	QString ret = "3rr0R";
@@ -113,6 +131,8 @@ void client::readMessage()
 			emit on_game_over(json_object);
 		} else if (type == "highlight") {
 			emit on_highlight(json_object);
+		} else if (type == "chat") {
+			emit on_chat(json_object);
 		}
 	}
 

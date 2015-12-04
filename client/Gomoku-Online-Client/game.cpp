@@ -25,7 +25,6 @@ void game::populate_players(QJsonArray data)
 	ui->listPlayer->clear();
 	QStringList list_players;
 	QString player_name;
-	qDebug() << data.at(0);
 
 	for (int i=0; i<data.size(); i++){
 		player_name = "[" + data.at(i).toObject().value("char").toString() + "] " + data.at(i).toObject().value("name").toString();
@@ -41,6 +40,12 @@ void game::do_show(int rid)
 {
 	ui->textRoom->setText(connection.getRoomNameByRid(rid));
 	ui->tableBoard->clearContents();
+	for (int i=0; i<20; i++){
+		for (int j=0; j<20; j++){
+			ui->tableBoard->setItem(i, j, new QTableWidgetItem(""));
+		}
+	}
+
 	this->show();
 }
 
@@ -57,7 +62,6 @@ void game::do_startgame()
 
 void game::do_updategame(QJsonObject data)
 {
-	ui->tableBoard->setItem(data.value("y").toInt(), data.value("x").toInt(), new QTableWidgetItem());
 	ui->tableBoard->item(data.value("y").toInt(), data.value("x").toInt())->setText(data.value("char").toString());
 
 	for (int i=0; i<connection.getPlayers().size(); i++){
@@ -71,9 +75,13 @@ void game::do_updategame(QJsonObject data)
 
 void game::do_highlight(QJsonObject data)
 {
-	qDebug() << data.value("y").toString() + " haha " + data.value("x").toString();
-	qDebug() << "masuk woy";
 	ui->tableBoard->item(data.value("y").toInt(), data.value("x").toInt())->setBackgroundColor(Qt::blue);
+}
+
+void game::do_chat(QJsonObject data)
+{
+	QString message = "[" + connection.getNameByPid(data.value("pid").toInt()) + "] " + data.value("message").toString();
+	ui->listChat->insertItem(ui->listChat->size().rheight(), message);
 }
 
 void game::on_game_destroyed()
@@ -97,4 +105,14 @@ void game::on_tableBoard_cellClicked(int row, int column)
 	json_object.insert("x", column);
 	json_object.insert("y", row);
 	connection.sendMessageJSONObject(json_object);
+}
+
+void game::on_buttonChat_clicked()
+{
+	QJsonObject json_object;
+	json_object.insert("type", "chat");
+	json_object.insert("message", ui->textChat->text());
+	connection.sendMessageJSONObject(json_object);
+
+	ui->textChat->setText("");
 }

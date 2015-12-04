@@ -20,6 +20,8 @@ class client : public QObject
 		int getRidByIndex(int idx);
 		QString getRoomNameByRid(int rid);
 		QJsonArray getPlayers();
+		int getPidByIndex(int idx);
+		QString getNameByPid(int pid);
 		int getPid();
 
 
@@ -34,6 +36,7 @@ class client : public QObject
 		void on_update_game(QJsonObject data);
 		void on_game_over(QJsonObject data);
 		void on_highlight(QJsonObject data);
+		void on_chat(QJsonObject data);
 
 
 	public slots:

@@ -59,7 +59,7 @@ class GameServer:
 		self.rooms[rid] = ""
 
 	def playerJoin (self, pid, rid):
-		if self.rooms[rid][1].getPlayerCount() < 5:
+		if ( ( self.rooms[rid][1].getPlayerCount() < 5 ) and ( not self.rooms[rid][1].isGameStarted() ) ):
 			self.players[pid].setRoomID(rid)
 			self.rooms[rid][1].addPlayer(pid)
 			self.players[pid].setChar(GameServer.character[self.rooms[rid][1].getPlayerCount() - 1])
@@ -129,7 +129,7 @@ class MessageServer:
 
 		elif msg['type'] == 'startgame':
 			rid = GameServer.getPlayerByPID(self.clientid).getRoomID()
-			if GameServer.getRoomList()[rid][1].getPlayerCount() == 1 :
+			if GameServer.getRoomList()[rid][1].getPlayerCount() >= 3 :
 				GameServer.getRoomList()[rid][1].startGame()
 				GameServer.broadcastByRoom(rid, {"type":"startgame"})
 
@@ -200,28 +200,25 @@ class MessageServer:
 					game.setBoard(int(msg['x']), int(msg['y']), GameServer.getPlayerByPID(self.clientid).getChar())
 					if game.isWin(int(msg['x']), int(msg['y']), GameServer.getPlayerByPID(self.clientid).getChar()) :
 						GameServer.broadcastByRoom(rid, {"type":"win", "id":self.clientid, "name":GameServer.getPlayerByPID(self.clientid).getName()})
-						
-						print game.highlight
-						print x
-						print y
+						game.stopGame()
 
 						GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x, "y":y})
 						for i in range(game.highlight[0]/10) :
-							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x, "y":y + i})
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x, "y":y + i + 1})
 						for i in range(game.highlight[1]/10) :
-							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x, "y":y - i})
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x, "y":y - i - 1})
 						for i in range(game.highlight[2]/10) :
-							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x + i, "y":y})
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x + i + 1, "y":y})
 						for i in range(game.highlight[3]/10) :
-							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x - i, "y":y})
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x - i - 1, "y":y})
 						for i in range(game.highlight[4]/10) :
-							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x + i, "y":y + i})
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x + i + 1, "y":y + i + 1})
 						for i in range(game.highlight[5]/10) :
-							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x - i, "y":y - i})
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x - i - 1, "y":y - i - 1})
 						for i in range(game.highlight[6]/10) :
-							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x - i, "y":y + i})
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x - i - 1, "y":y + i + 1})
 						for i in range(game.highlight[7]/10) :
-							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x + i, "y":y - i})
+							GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x + i + 1, "y":y - i - 1})
 
 					game.nextTurn()
 					GameServer.broadcastByRoom(rid, {"type":"play", "x":msg['x'], "y":msg['y'], "char":GameServer.getPlayerByPID(self.clientid).getChar(), "turn_id":game.getTurn()})
@@ -231,7 +228,7 @@ class MessageServer:
 				print "[Room #" + str(rid) + "] Play denied. Game not started."
 
 		elif msg['type'] == 'chat':
-			GameServer.broadcastByRoom(GameServer.getPlayerByPID(self.clientid).getRoomID(), {"type":"chat", "message":msg['message']})
+			GameServer.broadcastByRoom(GameServer.getPlayerByPID(self.clientid).getRoomID(), {"type":"chat", "message":msg['message'], "pid":self.clientid})
 
 		elif msg['type'] == 'request':
 			if msg['object'] == 'rooms':

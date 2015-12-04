@@ -30,6 +30,8 @@ class game : public QMainWindow
 		void on_game_destroyed();
 		void on_buttonPlay_clicked();
 		void on_tableBoard_cellClicked(int row, int column);
+		void do_chat(QJsonObject data);
+		void on_buttonChat_clicked();
 
 	private:
 		Ui::game *ui;
