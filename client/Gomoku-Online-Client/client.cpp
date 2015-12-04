@@ -116,6 +116,9 @@ void client::readMessage()
 			} else if (json_object.value("object") == "players"){
 				players = json_object.value("data").toArray();
 				emit on_refresh_players(players);
+			} else if (json_object.value("object") == "board"){
+				board = json_object.value("data").toArray();
+				emit on_refresh_board(board);
 			}
 		} else if (type == "newroom"){
 			emit on_create_room(json_object.value("rid").toInt());
@@ -133,6 +136,8 @@ void client::readMessage()
 			emit on_highlight(json_object);
 		} else if (type == "chat") {
 			emit on_chat(json_object);
+		} else if (type == "spectate") {
+			emit on_spectate(json_object.value("rid").toInt());
 		}
 	}
 

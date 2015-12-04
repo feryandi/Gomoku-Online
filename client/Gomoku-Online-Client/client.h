@@ -29,7 +29,9 @@ class client : public QObject
 		void on_login();
 		void on_refresh_rooms(QJsonArray data);
 		void on_refresh_players(QJsonArray data);
+		void on_refresh_board(QJsonArray data);
 		void on_join(int rid);
+		void on_spectate(int rid);
 		void on_close_game();
 		void on_create_room(int rid);
 		void on_start_game();
@@ -49,6 +51,7 @@ class client : public QObject
 		QTcpSocket *socket;
 		QJsonArray rooms;
 		QJsonArray players;
+		QJsonArray board;
 		int player_id;
 };
 

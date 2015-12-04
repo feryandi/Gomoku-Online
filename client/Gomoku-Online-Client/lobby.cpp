@@ -65,3 +65,12 @@ void lobby::on_buttonRefreshRoom_clicked()
 	json_object.insert("object", "rooms");
 	connection.sendMessageJSONObject(json_object);
 }
+
+void lobby::on_buttonSpectate_clicked()
+{
+	QJsonObject json_object;
+	json_object.insert("type", "spectate");
+	int rid = connection.getRidByIndex(ui->listRoom->currentRow());
+	json_object.insert("rid", rid);
+	connection.sendMessageJSONObject(json_object);
+}

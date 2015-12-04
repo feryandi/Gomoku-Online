@@ -5,6 +5,13 @@ class Player:
 		self.name = name
 		self.room = -1
 		self.char = '?'
+		self.spectate = False;
+
+	def isSpectate (self):
+		return self.spectate
+
+	def setSpectate (self, bool):
+		self.spectate = bool
 
 	def getID (self):
 		return self.id

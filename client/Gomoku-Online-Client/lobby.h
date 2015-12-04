@@ -25,6 +25,8 @@ class lobby : public QMainWindow
 		void on_buttonJoinRoom_clicked();
 		void on_buttonRefreshRoom_clicked();
 
+		void on_buttonSpectate_clicked();
+
 	private:
 		Ui::lobby *ui;
 };

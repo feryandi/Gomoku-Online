@@ -22,6 +22,10 @@ void interface::on_login()
 	connect(&connection, SIGNAL(on_join(int)), w_lobby, SLOT(do_hide()));
 	connect(&connection, SIGNAL(on_join(int)), w_game, SLOT(do_show(int)));
 
+	connect(&connection, SIGNAL(on_spectate(int)), w_lobby, SLOT(do_hide()));
+	connect(&connection, SIGNAL(on_spectate(int)), w_game, SLOT(do_show(int)));
+	connect(&connection, SIGNAL(on_refresh_board(QJsonArray)), w_game, SLOT(populate_board(QJsonArray)));
+
 	connect(w_game, SIGNAL(on_closegame()), w_game, SLOT(on_game_destroyed()));
 	connect(&connection, SIGNAL(on_close_game()), w_game, SLOT(do_hide()));
     connect(&connection, SIGNAL(on_close_game()), w_lobby, SLOT(do_show()));

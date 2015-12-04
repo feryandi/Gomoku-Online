@@ -36,8 +36,22 @@ void game::populate_players(QJsonArray data)
 	ui->listPlayer->addItems(list_players);
 }
 
+void game::populate_board(QJsonArray data)
+{
+	for (int i=0; i<data.size(); i++){
+		for (int j=0; j<data.at(i).toArray().size(); j++) {
+
+			if ( data.at(i).toArray().at(j).toString() != 0 ) {
+				ui->tableBoard->item(j, i)->setText(data.at(i).toArray().at(j).toString());
+			}
+
+		}
+	}
+}
+
 void game::do_show(int rid)
 {
+	ui->listChat->clear();
 	ui->textRoom->setText(connection.getRoomNameByRid(rid));
 	ui->tableBoard->clearContents();
 	for (int i=0; i<20; i++){
