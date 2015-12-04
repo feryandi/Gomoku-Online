@@ -73,6 +73,7 @@ class GameServer:
 		rid = self.players[pid].getRoomID()
 		self.rooms[rid][1].delPlayer(pid)
 		self.players[pid].setChar("?")
+		self.players[pid].setRoomID(-1)
 		print "Player (" + str(pid) + ") quit from game"
 
 		if self.rooms[rid][1].getPlayerCount() == 0:
@@ -87,6 +88,7 @@ class MessageServer:
 		self.clientid = -1
 		print "Accepted connection from ", tuple(clientaddr)
 
+		self.GameServer = GameServer
 		onLoop = True
 
 		while onLoop:			
@@ -103,7 +105,7 @@ class MessageServer:
 				if not data:
 					break
 				else:
-					print data
+					print "Received: " + data
 					self.interpreter(data, clientsocket, GameServer)
 			except error:
 				GameServer.delPlayer(self.clientid)
@@ -169,7 +171,11 @@ class MessageServer:
 				if GameServer.getRoomList()[rid] != "":
 					GameServer.broadcastByRoom(rid, json.loads(self.objectToJSON("players", GameServer)))
 
+			# Kirim ulang data rooms ke Client
+			GameServer.broadcastByRoom(-1, json.loads(self.objectToJSON("rooms", GameServer)))
+
 			self.sendResponse(clientsocket, json.dumps({"type":"closegame"}))
+
 			# Broadcast ke player yang merupakan owner
 			# ownerid = GameServer.getRoomList()[rid][1].getOwner()
 			# if ownerid != "":
@@ -183,9 +189,9 @@ class MessageServer:
 				if game.getTurn() == self.clientid:
 					game.setBoard(int(msg['x']), int(msg['y']), GameServer.getPlayerByPID(self.clientid).getChar())
 					if game.isWin(int(msg['x']), int(msg['y']), GameServer.getPlayerByPID(self.clientid).getChar()) :
-						GameServer.broadcastByRoom(rid, {"type":"win", "name":GameServer.getPlayerByPID(self.clientid).getName()})
-					GameServer.broadcastByRoom(rid, {"type":"play", "x":msg['x'], "y":msg['y'], "char":GameServer.getPlayerByPID(self.clientid).getChar()})
+						GameServer.broadcastByRoom(rid, {"type":"win", "id":self.clientid, "name":GameServer.getPlayerByPID(self.clientid).getName()})
 					game.nextTurn()
+					GameServer.broadcastByRoom(rid, {"type":"play", "x":msg['x'], "y":msg['y'], "char":GameServer.getPlayerByPID(self.clientid).getChar(), "turn_id":game.getTurn()})
 				else:
 					print "[Room #" + str(rid) + "] Play denied. It's (" + str(game.getTurn()) + ") turn"
 			else:
@@ -221,7 +227,7 @@ class MessageServer:
 			msgobj.object = "players"
 			for player in GameServer.getRoomList()[GameServer.getPlayerList()[self.clientid].getRoomID()][1].getPlayerList():
 				if GameServer.getPlayerByPID(player) != "":
-					msgobj.data.append({"name": GameServer.getPlayerByPID(player).getName(), "char":GameServer.getPlayerByPID(player).getChar()})
+					msgobj.data.append({"id":player, "name": GameServer.getPlayerByPID(player).getName(), "char":GameServer.getPlayerByPID(player).getChar()})
 
 		msg = json.dumps(msgobj.__dict__)
 		return msg
@@ -232,4 +238,5 @@ class MessageServer:
 
 
 	def __del__ (self):
+		self.GameServer.delPlayer(self.clientid)
 		print "Message Server destroyed"

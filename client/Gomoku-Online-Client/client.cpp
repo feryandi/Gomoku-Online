@@ -63,7 +63,7 @@ void client::readMessage()
 	if (type == "login"){
 		emit on_login();
 	} else if (type == "response"){
-		if (json_object.value("object") == "rooms"){
+        if (json_object.value("object") == "rooms"){
 			rooms = json_object.value("data").toArray();
 			emit on_refresh_rooms(rooms);
 		} else if (json_object.value("object") == "players"){
