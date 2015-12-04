@@ -4,7 +4,8 @@ from room import *
 class Game:
 	def __init__ (self, rid, pid):
 		self.room = rid
-		self.board = [ [ 0 for x in range(20) ] for x in range(20) ]
+		self.size = 20
+		self.board = [ [ 0 for x in range(self.size) ] for x in range(self.size) ]
 		self.turn = 0
 		self.winner = -1
 		self.players = []
@@ -19,7 +20,7 @@ class Game:
 		temp = char
 		x_iter = x + x_incr
 		y_iter = y + y_incr
-		while temp == char :
+		while temp == char and x_iter < self.size and y_iter < self.size :
 			temp = self.board[x_iter][y_iter]
 			if temp == char :
 				count = count + 1
