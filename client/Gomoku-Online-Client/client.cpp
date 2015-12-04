@@ -26,6 +26,15 @@ int client::getRidByIndex(int idx)
 	return rooms.at(idx).toObject().value("id").toInt();
 }
 
+QJsonArray client::getPlayers()
+{
+	return players;
+}
+
+int client::getPid(){
+	return player_id;
+}
+
 void client::connected()
 {
 	qDebug() << "connected...";
@@ -43,7 +52,7 @@ void client::sendMessageJSONObject(QJsonObject message)
 
 	QJsonDocument json_document;
 	json_document.setObject(message);
-	if (socket->write(json_document.toJson(QJsonDocument::Compact)) < 0){
+	if (socket->write(json_document.toJson(QJsonDocument::Compact) + "\r\n") < 0){
 		qDebug() << "Error: " << socket->errorString();
 	}
 }
@@ -61,6 +70,7 @@ void client::readMessage()
 	QJsonValue type = json_object.value("type");
 
 	if (type == "login"){
+		player_id = json_object.value("id").toInt();
 		emit on_login();
 	} else if (type == "response"){
         if (json_object.value("object") == "rooms"){
@@ -80,5 +90,7 @@ void client::readMessage()
 		emit on_start_game();
 	} else if (type == "play") {
 		emit on_update_game(json_object);
+	} else if (type == "win") {
+		emit on_game_over(json_object);
 	}
 }

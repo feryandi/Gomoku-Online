@@ -33,8 +33,6 @@ public:
     QLabel *labelListPlayer;
     QLabel *labelRoom;
     QLineEdit *textRoom;
-    QLabel *labelCurrentTurn;
-    QLineEdit *textCurrentTurn;
     QPushButton *buttonPlay;
 
     void setupUi(QMainWindow *game)
@@ -146,6 +144,7 @@ public:
         tableBoard->setFont(font);
         tableBoard->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         tableBoard->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        tableBoard->setEditTriggers(QAbstractItemView::NoEditTriggers);
         tableBoard->setTabKeyNavigation(false);
         tableBoard->setProperty("showDropIndicator", QVariant(false));
         tableBoard->setDragDropOverwriteMode(false);
@@ -157,10 +156,10 @@ public:
         tableBoard->verticalHeader()->setMinimumSectionSize(10);
         listPlayer = new QListWidget(centralwidget);
         listPlayer->setObjectName(QStringLiteral("listPlayer"));
-        listPlayer->setGeometry(QRect(440, 140, 151, 192));
+        listPlayer->setGeometry(QRect(440, 90, 151, 192));
         labelListPlayer = new QLabel(centralwidget);
         labelListPlayer->setObjectName(QStringLiteral("labelListPlayer"));
-        labelListPlayer->setGeometry(QRect(440, 120, 151, 20));
+        labelListPlayer->setGeometry(QRect(440, 70, 151, 20));
         QFont font1;
         font1.setFamily(QStringLiteral("Lato"));
         font1.setPointSize(11);
@@ -173,14 +172,6 @@ public:
         textRoom->setObjectName(QStringLiteral("textRoom"));
         textRoom->setGeometry(QRect(440, 40, 151, 24));
         textRoom->setFont(font1);
-        labelCurrentTurn = new QLabel(centralwidget);
-        labelCurrentTurn->setObjectName(QStringLiteral("labelCurrentTurn"));
-        labelCurrentTurn->setGeometry(QRect(440, 70, 151, 20));
-        labelCurrentTurn->setFont(font1);
-        textCurrentTurn = new QLineEdit(centralwidget);
-        textCurrentTurn->setObjectName(QStringLiteral("textCurrentTurn"));
-        textCurrentTurn->setGeometry(QRect(440, 90, 151, 24));
-        textCurrentTurn->setFont(font1);
         buttonPlay = new QPushButton(centralwidget);
         buttonPlay->setObjectName(QStringLiteral("buttonPlay"));
         buttonPlay->setGeometry(QRect(440, 390, 151, 33));
@@ -283,8 +274,6 @@ public:
         labelListPlayer->setText(QApplication::translate("game", "Player List:", 0));
         labelRoom->setText(QApplication::translate("game", "Room:", 0));
         textRoom->setPlaceholderText(QApplication::translate("game", "#HMIFDrama", 0));
-        labelCurrentTurn->setText(QApplication::translate("game", "Current Turn:", 0));
-        textCurrentTurn->setPlaceholderText(QApplication::translate("game", "user_name", 0));
         buttonPlay->setText(QApplication::translate("game", "Start Game!", 0));
     } // retranslateUi
 

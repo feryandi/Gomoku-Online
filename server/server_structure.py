@@ -25,13 +25,13 @@ class GameServer:
 		msg = json.dumps(message,separators=(',',':'))
 		for player in self.players:
 			if ( ( player != "" ) and ( player.getRoomID() == rid ) ):
-				player.getIPort().send(msg)
+				player.getIPort().send(msg + "\r\n")
 
 	def broadcastByPID (self, pid, message):
 		msg = json.dumps(message,separators=(',',':'))
 		player = self.players[pid]
 		if player != "":
-			player.getIPort().send(msg)
+			player.getIPort().send(msg + "\r\n")
 
 
 	def newPlayer (self, name, iport):
@@ -101,7 +101,9 @@ class MessageServer:
 					# 	return None
 					# data += msg
 
-				data = clientsocket.recv(4096)
+				msg = clientsocket.recv(4096)
+				msg = msg.split("\r\n", 1)
+				data = msg[0]
 				if not data:
 					break
 				else:
@@ -121,7 +123,7 @@ class MessageServer:
 			# Register player ke Server
 			self.clientid = GameServer.newPlayer(msg['name'], clientsocket)
 			# Katakan bahwa login berhasil
-			self.sendResponse(clientsocket, json.dumps({"type":"login"}))
+			self.sendResponse(clientsocket, json.dumps({"type":"login", "id":self.clientid}))
 			# Berikan list Room yang ada
 			self.sendResponse(clientsocket, self.objectToJSON("rooms", GameServer))
 
@@ -234,7 +236,7 @@ class MessageServer:
 
 	def sendResponse (self, clientsocket, msg):
 		print msg
-		clientsocket.send(msg)
+		clientsocket.send(msg +"\r\n")
 
 
 	def __del__ (self):

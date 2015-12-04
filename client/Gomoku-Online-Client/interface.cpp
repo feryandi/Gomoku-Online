@@ -8,6 +8,7 @@ interface::interface(QObject *parent) : QObject(parent)
 	w_login = new login;
 	w_lobby = new lobby;
 	w_game = new game;
+	w_gameover = new gameover;
 	connect(&connection, SIGNAL(on_login()), w_login, SLOT(do_destroy()));
 	w_login->show();
 }
@@ -27,6 +28,10 @@ void interface::on_login()
 
 	connect(&connection, SIGNAL(on_update_game(QJsonObject)), w_game, SLOT(do_updategame(QJsonObject)));
 	connect(&connection, SIGNAL(on_start_game()), w_game, SLOT(do_startgame()));
+
+	connect(&connection, SIGNAL(on_game_over(QJsonObject)), w_gameover, SLOT(do_show(QJsonObject)));
+	connect(w_gameover, SIGNAL(on_deletegameover()), w_gameover, SLOT(do_delete()));
+
 
 	w_lobby->show();
 }

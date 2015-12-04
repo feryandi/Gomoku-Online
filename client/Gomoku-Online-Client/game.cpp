@@ -23,9 +23,15 @@ void game::populate_players(QJsonArray data)
 {
 	ui->listPlayer->clear();
 	QStringList list_players;
+	QString player_name;
 	qDebug() << data.at(0);
+
 	for (int i=0; i<data.size(); i++){
-		list_players += data.at(i).toObject().value("name").toString();
+		player_name = data.at(i).toObject().value("name").toString();
+		if (data.at(i).toObject().value("id") == connection.getPid()){
+			player_name += " (YOU)";
+		}
+		list_players += player_name;
 	}
 	ui->listPlayer->addItems(list_players);
 }
@@ -49,6 +55,15 @@ void game::do_startgame()
 void game::do_updategame(QJsonObject data)
 {
 	ui->tableBoard->setItem(data.value("y").toInt(), data.value("x").toInt(), new QTableWidgetItem(data.value("char").toString()));
+
+	for (int i=0; i<connection.getPlayers().size(); i++){
+		if (data.value("turn_id") == connection.getPlayers().at(i).toObject().value("id")){
+			ui->listPlayer->item(i)->setBackgroundColor(Qt::blue);
+		} else{
+			ui->listPlayer->item(i)->setBackgroundColor(Qt::white);
+		}
+	}
+
 }
 
 void game::on_game_destroyed()

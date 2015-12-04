@@ -17,14 +17,17 @@ SOURCES += main.cpp\
     lobby.cpp \
     game.cpp \
     client.cpp \
-    interface.cpp
+    interface.cpp \
+    gameover.cpp
 
 HEADERS  += login.h \
     lobby.h \
     game.h \
     client.h \
-    interface.h
+    interface.h \
+    gameover.h
 
 FORMS    += login.ui \
     lobby.ui \
-    game.ui
+    game.ui \
+    gameover.ui

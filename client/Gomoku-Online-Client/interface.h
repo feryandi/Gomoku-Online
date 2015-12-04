@@ -6,6 +6,8 @@
 #include "login.h"
 #include "lobby.h"
 #include "game.h"
+#include "gameover.h"
+
 
 class interface : public QObject
 {
@@ -22,6 +24,8 @@ class interface : public QObject
 		login *w_login;
 		lobby *w_lobby;
 		game *w_game;
+		gameover *w_gameover;
+
 };
 
 #endif // INTERFACE_H

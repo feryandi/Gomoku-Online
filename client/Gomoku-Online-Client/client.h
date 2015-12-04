@@ -18,6 +18,9 @@ class client : public QObject
 		explicit client(QObject *parent = 0);
 		void doConnect(QString server_ip, quint16 server_port);
 		int getRidByIndex(int idx);
+		QJsonArray getPlayers();
+		int getPid();
+
 
 	signals:
 		void on_login();
@@ -28,6 +31,7 @@ class client : public QObject
 		void on_create_room(int rid);
 		void on_start_game();
 		void on_update_game(QJsonObject data);
+		void on_game_over(QJsonObject data);
 
 
 	public slots:
@@ -40,6 +44,7 @@ class client : public QObject
 		QTcpSocket *socket;
 		QJsonArray rooms;
 		QJsonArray players;
+		int player_id;
 };
 
 /* Universal connection handler */

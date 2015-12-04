@@ -48,6 +48,9 @@
     <property name="horizontalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOff</enum>
     </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
     <property name="tabKeyNavigation">
      <bool>false</bool>
     </property>
@@ -280,7 +283,7 @@
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>140</y>
+      <y>90</y>
       <width>151</width>
       <height>192</height>
      </rect>
@@ -290,7 +293,7 @@
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>120</y>
+      <y>70</y>
       <width>151</width>
       <height>20</height>
      </rect>
@@ -341,44 +344,6 @@
     </property>
     <property name="placeholderText">
      <string>#HMIFDrama</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelCurrentTurn">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>70</y>
-      <width>151</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Lato</family>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Current Turn:</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="textCurrentTurn">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>90</y>
-      <width>151</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Lato</family>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-    <property name="placeholderText">
-     <string>user_name</string>
     </property>
    </widget>
    <widget class="QPushButton" name="buttonPlay">
