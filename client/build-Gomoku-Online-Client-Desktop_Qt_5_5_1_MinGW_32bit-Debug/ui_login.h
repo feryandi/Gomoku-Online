@@ -90,7 +90,7 @@ public:
         textServerIP->setObjectName(QStringLiteral("textServerIP"));
         textServerIP->setGeometry(QRect(130, 110, 167, 24));
         textServerIP->setFont(font1);
-        textServerIP->setFocusPolicy(Qt::TabFocus);
+        textServerIP->setFocusPolicy(Qt::StrongFocus);
         textServerIP->setCursorPosition(1);
         textNickname = new QLineEdit(centralWidget);
         textNickname->setObjectName(QStringLiteral("textNickname"));
