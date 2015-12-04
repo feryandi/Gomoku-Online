@@ -15,6 +15,7 @@ class gameover : public QDialog
 	public:
 		explicit gameover(QWidget *parent = 0);
 		~gameover();
+		void closeEvent(QCloseEvent *event);
 
 	signals:
 		void on_deletegameover();
@@ -23,7 +24,7 @@ class gameover : public QDialog
 	private slots:
 		void on_buttonOK_clicked();
 		void do_show(QJsonObject data);
-		void delete_game_over();
+		void do_delete();
 
 	private:
 		Ui::gameover *ui;
