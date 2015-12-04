@@ -25,13 +25,13 @@ class GameServer:
 		msg = json.dumps(message,separators=(',',':'))
 		for player in self.players:
 			if ( ( player != "" ) and ( player.getRoomID() == rid ) ):
-				player.getIPort().send(msg + "\r\n")
+				player.getIPort().send(msg + "\n")
 
 	def broadcastByPID (self, pid, message):
 		msg = json.dumps(message,separators=(',',':'))
 		player = self.players[pid]
 		if player != "":
-			player.getIPort().send(msg + "\r\n")
+			player.getIPort().send(msg + "\n")
 
 
 	def newPlayer (self, name, iport):
@@ -101,7 +101,7 @@ class MessageServer:
 					# data += msg
 
 				msg = clientsocket.recv(4096)
-				msg = msg.split("\r\n", 1)
+				msg = msg.split("\n", 1)
 				data = msg[0]
 				if not data:
 					break
@@ -236,7 +236,7 @@ class MessageServer:
 
 	def sendResponse (self, clientsocket, msg):
 		print msg
-		clientsocket.send(msg +"\r\n")
+		clientsocket.send(msg +"\n")
 
 
 	def __del__ (self):
