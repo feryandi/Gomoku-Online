@@ -11,7 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = Gomoku-Online-Client
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         login.cpp \
     lobby.cpp \
