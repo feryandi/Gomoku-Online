@@ -11,7 +11,8 @@ class Game:
 		self.isStart = False
 
 	def setBoard(self, x, y, char):
-		self.board[x][y] = char
+		if ( self.board[x][y] == 0 ):
+			self.board[x][y] = char
 
 	def countSame(self, x, y, char, x_incr, y_incr):
 		count = 0

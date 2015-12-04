@@ -73,7 +73,6 @@ class GameServer:
 		rid = self.players[pid].getRoomID()
 		self.rooms[rid][1].delPlayer(pid)
 		self.players[pid].setChar("?")
-		self.players[pid].setRoomID(-1)
 		print "Player (" + str(pid) + ") quit from game"
 
 		if self.rooms[rid][1].getPlayerCount() == 0:
@@ -173,6 +172,7 @@ class MessageServer:
 				if GameServer.getRoomList()[rid] != "":
 					GameServer.broadcastByRoom(rid, json.loads(self.objectToJSON("players", GameServer)))
 
+				GameServer.getPlayerByPID(self.clientid).setRoomID(-1)
 			# Kirim ulang data rooms ke Client
 			GameServer.broadcastByRoom(-1, json.loads(self.objectToJSON("rooms", GameServer)))
 
