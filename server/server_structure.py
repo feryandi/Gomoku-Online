@@ -198,7 +198,7 @@ class MessageServer:
 					game.setBoard(int(msg['x']), int(msg['y']), GameServer.getPlayerByPID(self.clientid).getChar())
 					if game.isWin(int(msg['x']), int(msg['y']), GameServer.getPlayerByPID(self.clientid).getChar()) :
 						GameServer.broadcastByRoom(rid, {"type":"win", "id":self.clientid, "name":GameServer.getPlayerByPID(self.clientid).getName()})
-						self.highlight(int(msg['x']),int(msg['y']))
+						self.highlight(rid,int(msg['x']),int(msg['y']))
 
 					game.nextTurn()
 					GameServer.broadcastByRoom(rid, {"type":"play", "x":msg['x'], "y":msg['y'], "char":GameServer.getPlayerByPID(self.clientid).getChar(), "turn_id":game.getTurn()})
@@ -255,7 +255,7 @@ class MessageServer:
 		print msg
 		clientsocket.send(msg +"\r\n")
 
-	def highlight (self, x, y):
+	def highlight (self, rid, x, y):
 		GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x, "y":y})
 		for i in range(game.highlight[0]/10) :
 			GameServer.broadcastByRoom(rid, {"type":"highlight", "x":x, "y":y + i})
