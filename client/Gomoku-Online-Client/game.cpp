@@ -40,6 +40,7 @@ void game::populate_players(QJsonArray data)
 void game::do_show(int rid)
 {
 	ui->textRoom->setText(connection.getRoomNameByRid(rid));
+	ui->tableBoard->clearContents();
 	this->show();
 }
 
