@@ -57,16 +57,16 @@ class Game:
 		win = 0
 		if self.checkVertical(x,y,char) :
 			win = win + 1
-			changeHighlight(0)
+			self.changeHighlight(0)
 		if self.checkHorizontal(x,y,char) :
 			win = win + 1
-			changeHighlight(2)
+			self.changeHighlight(2)
 		if self.checkDiagonalA(x,y,char) :
 			win = win + 1
-			changeHighlight(4)
+			self.changeHighlight(4)
 		if self.checkDiagonalB(x,y,char) :
 			win = win + 1
-			changeHighlight(6)
+			self.changeHighlight(6)
 		return win > 0
 
 	def getOwner (self):
